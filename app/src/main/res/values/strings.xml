@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Hotel App</string>
+    <string name="sign_in">Sign in</string>
+    <string name="home_page">Home page</string>
+    <string name="order_list">Order List</string>
+    <string name="new_reservation">New Reservation</string>
+
+    <string name="first_name">Vorname</string>
+    <string name="col1">OrderID</string>
+    <string name="col2">First name</string>
+    <string name="col3">Last name</string>
+    <string name="col4">Delete</string>
+
+    <string name="row1">#1</string>
+    <string name="row2">Iliass</string>
+    <string name="row3">Belahmer</string>
+    <string name="row4">Delete</string>
+
+    <string name="row5">#2</string>
+    <string name="row6">Oussama</string>
+    <string name="row7">Hamioui</string>
+    <string name="email">Email</string>
+    <string name="handy_nr">Handy Nr</string>
+    <string name="land">Land</string>
+    <string name="speichern">Speichern</string>
+    <string name="username">Username</string>
+    <string name="nachname">Nachname</string>
+    <string name="geburtsdatum">Geburtsdatum</string>
+
+</resources>
