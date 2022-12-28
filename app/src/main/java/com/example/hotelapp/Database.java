@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.icu.text.UFormat;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -15,7 +14,7 @@ import java.sql.Date;
 public class Database extends SQLiteOpenHelper {
 
     private Context context;
-    private static  final  String DB_NAME = "HotelManagement";
+    private static  final  String DB_NAME = "HotelManagement.db";
     private static  final  int Version_db = 1;
     // Table Reservation
     private static  final  String TName = "Reservations";
@@ -33,7 +32,7 @@ public class Database extends SQLiteOpenHelper {
     private static  final  String Geburtstag = "Geburtstag";
     private static  final  String Email = "Email";
     private static  final  String Tel = "Tel";
-    private static  final  String Nationalität = "Nationalität";
+    private static  final  String Land = "Land";
     // Table zimmer
     private static  final  String TName3 = "Zimmer";
     private static  final  String ID_Zimmer = "ID_Zimmer";
@@ -59,10 +58,10 @@ public class Database extends SQLiteOpenHelper {
                         "("+ID_Kunde+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
                         Vorname+" TEXT,"+
                         Nachname+"TEXT,"+
-                        Geburtstag+" DATE,"+
+                        Geburtstag+" TEXT,"+
                         Email+"TEXT,"+
-                        Tel+" INTEGER," +
-                        Nationalität+"TEXT);";
+                        Tel+" TEXT," +
+                        Land+"TEXT);";
         String query2 =
                 "CREATE TABLE "+TName3+
                         "("+ID_Zimmer+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
@@ -103,7 +102,7 @@ public class Database extends SQLiteOpenHelper {
 
     }
 
-    public boolean addUser(String vorname,String nachname,Date geburtstag , String email, int tel, String land){
+    public boolean addUser(String vorname,String nachname,String geburtstag , String email, String tel, String land){
 
         boolean res=false;
         SQLiteDatabase database = this.getWritableDatabase();
@@ -111,10 +110,10 @@ public class Database extends SQLiteOpenHelper {
 
         contentValues.put(Vorname,vorname);
         contentValues.put(Nachname,nachname);
-        contentValues.put(Geburtstag,String.valueOf(geburtstag));
+        contentValues.put(Geburtstag,geburtstag);
         contentValues.put(Email,email);
-        contentValues.put(Tel,String.valueOf(tel));
-        contentValues.put(Nationalität,land);
+        contentValues.put(Tel,tel);
+        contentValues.put(Land,land);
 
         long result = database.insert(TName2, null, contentValues);
 
