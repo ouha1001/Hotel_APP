@@ -143,14 +143,14 @@
         android:textColorHint="#6D4C41"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="20dp" />
+        tools:layout_editor_absoluteX="20dp"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/nachname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="539dp"
         android:autofillHints=""
@@ -164,7 +164,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/vorname"
         app:layout_constraintVertical_bias="0.0"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/geburtsdatum"
@@ -176,7 +177,7 @@
         android:autofillHints=""
         android:background="#30ffffff"
         android:hint="@string/geburtsdatum"
-        android:inputType="text"
+        android:inputType="date"
         android:padding="10dp"
         android:textColor="@color/white"
         android:textColorHint="#6D4C41"
@@ -184,7 +185,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nachname"
         app:layout_constraintVertical_bias="0.0"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"/>
 
     <EditText
         android:id="@+id/email"
@@ -196,7 +197,7 @@
         android:autofillHints=""
         android:background="#30ffffff"
         android:hint="@string/email"
-        android:inputType="textEmailAddress"
+        android:inputType="textEmailSubject"
         android:padding="10dp"
         android:textColor="@color/white"
         android:textColorHint="#6D4C41"

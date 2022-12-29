@@ -41,31 +41,36 @@ public class Database extends SQLiteOpenHelper {
     public Database(@Nullable Context context) {
         super(context, DB_NAME, null, Version_db);
         this.context=context;
+        SQLiteDatabase db = this.getWritableDatabase();
+
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query =
                 "CREATE TABLE "+TName+
-                        "("+ID_Reservation+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                        Id_Kunde_R+" INTEGER ,"+
-                        Id_Zimmer_R+"INTEGER ,"+
-                        DateIn+" DATE,"+
-                        DateOut+"DATE,"+
-                        Gesamt+" INTEGER);";
+                        " ("+ID_Reservation+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                        Id_Kunde_R+" INTEGER , "+
+                        Id_Zimmer_R+" INTEGER , "+
+                        DateIn+" NUMERIC, "+
+                        DateOut+" NUMERIC, "+
+                        Gesamt+" NUMERIC ); ";
         String query1 =
                 "CREATE TABLE "+TName2+
-                        "("+ID_Kunde+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                        Vorname+" TEXT,"+
-                        Nachname+"TEXT,"+
-                        Geburtstag+" TEXT,"+
-                        Email+"TEXT,"+
-                        Tel+" TEXT," +
-                        Land+"TEXT);";
+                        "("+ID_Kunde+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                        Vorname+"  TEXT, "+
+                        Nachname+"  TEXT, "+
+                        Geburtstag+"  NUMERIC, "+
+                        Email+" TEXT, "+
+                        Tel+" NUMERIC, " +
+                        Land+" TEXT ); ";
         String query2 =
                 "CREATE TABLE "+TName3+
-                        "("+ID_Zimmer+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                        Type+" VARCHAR(50));";
+                        " ( "+ID_Zimmer+  " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                        Type+" TEXT );";
+
+
+
         db.execSQL(query);
         db.execSQL(query1);
         db.execSQL(query2);
@@ -107,8 +112,8 @@ public class Database extends SQLiteOpenHelper {
         boolean res=false;
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-
         contentValues.put(Vorname,vorname);
+
         contentValues.put(Nachname,nachname);
         contentValues.put(Geburtstag,geburtstag);
         contentValues.put(Email,email);
@@ -118,10 +123,11 @@ public class Database extends SQLiteOpenHelper {
         long result = database.insert(TName2, null, contentValues);
 
         if(result == -1){
-            Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context , "Failed!", Toast.LENGTH_SHORT).show();
             res=false;
         }else {
             Toast.makeText(context, "Successfully!", Toast.LENGTH_SHORT).show();
+
             res=true;
         }
 
