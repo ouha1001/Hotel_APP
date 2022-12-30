@@ -131,6 +131,8 @@
 
     <EditText
         android:id="@+id/vorname"
+        android:maxLines="1"
+        android:singleLine="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
@@ -150,7 +152,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-
+        android:maxLines="1"
+        android:singleLine="true"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="539dp"
         android:autofillHints=""
@@ -169,6 +172,8 @@
     <EditText
         android:id="@+id/geburtsdatum"
         android:layout_width="match_parent"
+        android:maxLines="1"
+        android:singleLine="true"
         android:layout_height="48dp"
         android:layout_margin="20dp"
         android:layout_marginEnd="20dp"
@@ -188,7 +193,9 @@
 
     <EditText
         android:id="@+id/email"
+        android:maxLines="1"
         android:layout_width="match_parent"
+        android:singleLine="true"
         android:layout_height="48dp"
         android:layout_margin="20dp"
         android:layout_marginEnd="20dp"
@@ -209,6 +216,7 @@
     <EditText
         android:id="@+id/phone"
         android:layout_width="match_parent"
+        android:maxLines="1"
         android:layout_height="48dp"
         android:layout_margin="20dp"
         android:layout_marginEnd="20dp"
@@ -217,6 +225,7 @@
         android:background="#30ffffff"
         android:hint="@string/handy_nr"
         android:inputType="phone"
+        android:singleLine="true"
         android:padding="10dp"
         android:textColor="@color/white"
         android:textColorHint="#6D4C41"
@@ -229,6 +238,7 @@
     <EditText
         android:id="@+id/country"
         android:layout_width="match_parent"
+        android:maxLines="1"
         android:layout_height="48dp"
         android:layout_margin="20dp"
         android:layout_marginEnd="20dp"
@@ -236,6 +246,7 @@
         android:autofillHints=""
         android:background="#30ffffff"
         android:hint="@string/land"
+        android:singleLine="true"
         android:padding="10dp"
         android:textColor="@color/white"
         android:textColorHint="#6D4C41"

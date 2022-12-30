@@ -1,9 +1,11 @@
 package com.example.hotelapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -13,12 +15,13 @@ import android.widget.Toast;
 public class HomePageActivity extends AppCompatActivity {
 
     Button logoutbtn;
+    Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page2);
-
+        db=new Database(this);
         ConstraintLayout constraintLayout = findViewById(R.id.homePageLayout);
         AnimationDrawable animationDrawable =(AnimationDrawable) constraintLayout.getBackground();
         animationDrawable.setEnterFadeDuration(2500);
@@ -51,6 +54,37 @@ public class HomePageActivity extends AppCompatActivity {
     public void newUser(View view){
         Intent intent = new Intent(this, AddNewUser.class);
         startActivity(intent);
+    }
+
+    public void ShowClients(View view){
+
+        Cursor c=db.readAllData();
+        if(c.getCount()==0){
+            Toast.makeText(this,"Empty",Toast.LENGTH_SHORT);
+        }
+        else {
+            StringBuffer sb = new StringBuffer();
+            while (c.moveToNext()){
+                sb.append("+++++++++++++++++++++++++++ \n");
+                sb.append(" ID "+c.getString(0)+" \n ");
+                sb.append(" Vorname "+c.getString(1)+" \n ");
+                sb.append(" Nachname "+c.getString(2)+" \n ");
+                sb.append(" Geburtsdatum "+c.getString(3)+" \n ");
+                sb.append(" Email "+c.getString(4)+" \n ");
+                sb.append(" Tel "+c.getString(5)+" \n ");
+                sb.append(" Land "+c.getString(6)+" \n ");
+
+
+                AlertDialog.Builder b = new AlertDialog.Builder(this);
+                b.setCancelable(true);
+                b.setTitle("Kunde Informationen");
+                b.setMessage(sb.toString());
+                AlertDialog a=b.create();
+                b.show();
+
+
+            }
+        }
     }
 
 }

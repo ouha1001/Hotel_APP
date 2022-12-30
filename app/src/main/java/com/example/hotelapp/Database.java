@@ -41,6 +41,7 @@ public class Database extends SQLiteOpenHelper {
     public Database(@Nullable Context context) {
         super(context, DB_NAME, null, Version_db);
         this.context=context;
+        SQLiteDatabase db =this.getWritableDatabase();
     }
 
     @Override
@@ -130,13 +131,16 @@ public class Database extends SQLiteOpenHelper {
     }
 
     Cursor readAllData(){
-        String query = "SELECT * FROM " + TName;
+        String query = "SELECT * FROM " + TName2;
         SQLiteDatabase database = this.getReadableDatabase();
 
         Cursor cursor = null;
 
         if(database != null){
             cursor = database.rawQuery(query, null);
+        }
+        else {
+            Toast.makeText(context,"Empty Data",Toast.LENGTH_SHORT);
         }
         return cursor;
         }
