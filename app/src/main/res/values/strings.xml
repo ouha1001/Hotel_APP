@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">Hotel App</string>
     <string name="sign_in">Sign in</string>
-    <string name="home_page">Home page</string>
-    <string name="order_list">Order List</string>
-    <string name="new_reservation">New Reservation</string>
-
-    <string name="first_name">Vorname</string>
+    <string name="home_page" translatable="false">Home page</string>
+    <string name="order_list" translatable="false">Order List</string>
+    <string name="new_reservation" translatable="false">New Reservation</string>
+    <string-array name="TypeZimmer">
+        <item>Single</item>
+        <item>Double</item>
+    </string-array>
+    <string name="first_name" translatable="false">Vorname</string>
     <string name="col1">OrderID</string>
     <string name="col2">First name</string>
     <string name="col3">Last name</string>

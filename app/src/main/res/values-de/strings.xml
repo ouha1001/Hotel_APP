@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Hotel  App</string>
     <string name="sign_in">Anmelden</string>
+    <string-array name="TypeZimmer" tools:ignore="ExtraTranslation">
+            <item >Single</item>
+            <item >Double</item>
+    </string-array>
 </resources>

@@ -10,6 +10,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class Database extends SQLiteOpenHelper {
 
@@ -46,49 +48,57 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Zimmer bloc1=new Zimmer();
+        Map<Integer, String> rooms = bloc1.getRooms();
         String query =
                 "CREATE TABLE "+TName+
                         "("+ID_Reservation+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
                         Id_Kunde_R+" INTEGER ,"+
-                        Id_Zimmer_R+"INTEGER ,"+
-                        DateIn+" DATE,"+
-                        DateOut+"DATE,"+
-                        Gesamt+" INTEGER);";
+                        Id_Zimmer_R+" INTEGER ,"+
+                        DateIn+" BLOB ,"+
+                        DateOut+" BLOB ,"+
+                        Gesamt+" INTEGER ); ";
         String query1 =
                 "CREATE TABLE "+TName2+
                         "("+ID_Kunde+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                        Vorname+" TEXT,"+
-                        Nachname+"TEXT,"+
-                        Geburtstag+" TEXT,"+
-                        Email+"TEXT,"+
-                        Tel+" TEXT," +
-                        Land+"TEXT);";
-        String query2 =
+                        Vorname+" TEXT ,"+
+                        Nachname+" TEXT ,"+
+                        Geburtstag+" TEXT ,"+
+                        Email+" TEXT ,"+
+                        Tel+" TEXT ," +
+                        Land+" TEXT);";
+       /* String query2 =
                 "CREATE TABLE "+TName3+
                         "("+ID_Zimmer+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                        Type+" VARCHAR(50));";
+                        Type+" VARCHAR(50));";*/
+
+
+
         db.execSQL(query);
         db.execSQL(query1);
-        db.execSQL(query2);
+        //db.execSQL(query2);
+
+
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TName);
         db.execSQL("DROP TABLE IF EXISTS " + TName2);
-        db.execSQL("DROP TABLE IF EXISTS " + TName3);
+        //db.execSQL("DROP TABLE IF EXISTS " + TName3);
         onCreate(db);
     }
 
-    void addReservation(int id_Kunde, int id_Zimmer, Date date_In , Date date_Out, int gesamt){
+    void addReservation(int id_Kunde, int id_Zimmer, String date_In , String date_Out, int gesamt){
 
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(Id_Kunde_R, id_Kunde);
         contentValues.put(Id_Zimmer_R, id_Zimmer);
-        contentValues.put(DateIn, String.valueOf(date_In));
-        contentValues.put(DateOut, String.valueOf(date_Out));
+        contentValues.put(DateIn, date_In);
+        contentValues.put(DateOut, date_Out);
         contentValues.put(Gesamt, gesamt);
 
         long result = database.insert(TName, null, contentValues);
@@ -102,6 +112,7 @@ public class Database extends SQLiteOpenHelper {
 
 
     }
+
 
     public boolean addUser(String vorname,String nachname,String geburtstag , String email, String tel, String land){
 
@@ -138,10 +149,13 @@ public class Database extends SQLiteOpenHelper {
 
         if(database != null){
             cursor = database.rawQuery(query, null);
+
         }
         else {
             Toast.makeText(context,"Empty Data",Toast.LENGTH_SHORT);
         }
         return cursor;
         }
+
+
     }

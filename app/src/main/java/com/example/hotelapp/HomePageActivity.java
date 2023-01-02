@@ -80,11 +80,13 @@ public class HomePageActivity extends AppCompatActivity {
                 b.setTitle("Kunde Informationen");
                 b.setMessage(sb.toString());
                 AlertDialog a=b.create();
+
                 b.show();
 
 
             }
         }
+
     }
 
 }

@@ -77,7 +77,9 @@ public class AddNewUser extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                     checkDatum(year);
                     month= month+1;
-                    String date = day+"/"+month+"/"+year;
+                    //Date tag = new Date(year,month,dayOfMonth);
+                    String date = dayOfMonth+"/"+month+"/"+year;
+                    //String days = tag.getDay()+"/"+tag.getMonth()+"/"+ tag.getYear();
                     geburtstagK.setText(date);
 
 
@@ -92,6 +94,7 @@ public class AddNewUser extends AppCompatActivity {
                 db.addUser(Tvorname.getText().toString().trim(),Tnachname.getText().toString().trim()
                         ,geburtstagK.getText().toString().trim(),emailK.getText().toString().trim()
                         ,telK.getText().toString().trim(),landK.getText().toString().trim());
+
             }
         });
 

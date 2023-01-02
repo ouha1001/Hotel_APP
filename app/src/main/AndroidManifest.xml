@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!DOCTYPE manifest>
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -13,10 +13,17 @@
         android:theme="@style/Theme.HotelApp"
         tools:targetApi="31">
         <activity
+            android:name=".activity_add_Zimmer"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".AddNewUser"
             android:exported="false"
-            android:parentActivityName=".HomePageActivity"
-            android:label="Kunde Hinzufügen">
+            android:label="Kunde Hinzufügen"
+            android:parentActivityName=".HomePageActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -24,7 +31,6 @@
         <activity
             android:name=".MyRow"
             android:exported="false"
-
             android:label="Reservations details">
             <meta-data
                 android:name="android.app.lib_name"

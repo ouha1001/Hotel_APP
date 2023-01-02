@@ -181,7 +181,6 @@
         android:autofillHints=""
         android:background="#30ffffff"
         android:hint="@string/geburtsdatum"
-        android:inputType="text"
         android:padding="10dp"
         android:textColor="@color/white"
         android:textColorHint="#6D4C41"
