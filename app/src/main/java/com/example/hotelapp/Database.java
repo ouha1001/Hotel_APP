@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.jar.Attributes;
 
 public class Database extends SQLiteOpenHelper {
 
@@ -40,6 +41,8 @@ public class Database extends SQLiteOpenHelper {
     private static  final  String ID_Zimmer = "ID_Zimmer";
     private static  final  String Type = "Type";
 
+
+
     public Database(@Nullable Context context) {
         super(context, DB_NAME, null, Version_db);
         this.context=context;
@@ -55,8 +58,8 @@ public class Database extends SQLiteOpenHelper {
                         "("+ID_Reservation+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
                         Id_Kunde_R+" INTEGER ,"+
                         Id_Zimmer_R+" INTEGER ,"+
-                        DateIn+" BLOB ,"+
-                        DateOut+" BLOB ,"+
+                        DateIn+" TEXT ,"+
+                        DateOut+" TEXT ,"+
                         Gesamt+" INTEGER ); ";
         String query1 =
                 "CREATE TABLE "+TName2+

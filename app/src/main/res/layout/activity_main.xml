@@ -27,6 +27,7 @@
 
     <EditText
         android:id="@+id/user_name"
+        android:maxLines="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/signin"
@@ -47,6 +48,7 @@
 
     <EditText
         android:id="@+id/password"
+        android:maxLines="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/user_name"

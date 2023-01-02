@@ -40,10 +40,15 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
     DatePickerDialog.OnDateSetListener setListener,setListener_out;
     AlertDialog.Builder b;
 
-    public  boolean checkDatum(int year){
-        boolean res;
+    public  boolean checkDatum(int year,int month,int DayofMonth){
+
+        boolean res = false;
         Calendar calendar = Calendar.getInstance();
-        if(year< calendar.get(Calendar.YEAR)){
+       /* if((year < calendar.get(Calendar.YEAR))
+                || ( (  (year== calendar.get(Calendar.YEAR)) || (year> calendar.get(Calendar.YEAR) ) ) && (month<calendar.get(Calendar.DAY_OF_MONTH)) )
+
+                || (  (  (year== calendar.get(Calendar.YEAR))|| (year> calendar.get(Calendar.YEAR) ) ) &&  ( (month==calendar.get(Calendar.MONTH) ) || (month> calendar.get(Calendar.MONTH) ) ) && (DayofMonth<calendar.get(Calendar.DAY_OF_MONTH)) ) ){
+
 
             b = new AlertDialog.Builder(this);
             b.setCancelable(true);
@@ -52,6 +57,35 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
             AlertDialog a=b.create();
             b.show();
 
+            res = false;
+        }*/
+        if( (year < calendar.get(Calendar.YEAR) ) ) {
+            b = new AlertDialog.Builder(this);
+            b.setCancelable(true);
+            b.setTitle("Kunde Informationen");
+            b.setMessage("Date unvalid");
+            AlertDialog a = b.create();
+            b.show();
+
+            res = false;
+        }
+        else if(  (year == calendar.get(Calendar.YEAR) )   &&  (month < calendar.get(Calendar.MONTH)  )   ){
+            b = new AlertDialog.Builder(this);
+            b.setCancelable(true);
+            b.setTitle("Kunde Informationen");
+            b.setMessage("Date unvalid");
+            AlertDialog a = b.create();
+            b.show();
+
+            res = false;
+        }
+        else  if( (  (year == calendar.get(Calendar.YEAR) )   &&  (month == calendar.get(Calendar.MONTH)  )   ) && ( DayofMonth<calendar.get(Calendar.DAY_OF_MONTH) )  ){
+            b = new AlertDialog.Builder(this);
+            b.setCancelable(true);
+            b.setTitle("Kunde Informationen");
+            b.setMessage("Date unvalid");
+            AlertDialog a = b.create();
+            b.show();
 
             res = false;
         }
@@ -60,7 +94,24 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
         }
         return  res;
     }
+    public boolean checkPeriod(long in ,long out){
+        boolean r ;
+        long temp= (out - in)/86400000;
+        if(temp < 0  ){
+            b = new AlertDialog.Builder(this);
+            b.setCancelable(true);
+            b.setTitle("Falsche Information");
+            b.setMessage("Check Out und Check In sind nicht Richtig !!");
+            AlertDialog a = b.create();
+            b.show();
 
+            r = true;
+        }
+        else {
+            r=false;
+        }
+        return r;
+    }
 
     public  void storeAllClients(){
         Cursor c = db.readAllData();
@@ -101,15 +152,30 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
         final  int year = calendar.get(Calendar.YEAR);
         final  int month = calendar.get(Calendar.MONTH);
         final  int day = calendar.get(Calendar.DAY_OF_MONTH);
-        checkIn=findViewById(R.id.checkin);
-        checkOut=findViewById(R.id.checkout);
+        checkIn=(EditText) findViewById(R.id.checkin);
+        checkOut=(EditText) findViewById(R.id.checkout);
         btnadd=findViewById(R.id.add_reservation);
         btnadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 long Result =(i1-i)/86400000;
                 long price = (itemselected.equals("Single")) ? 10 * Result : 20 * Result;
-                db.addReservation(Kunde.get(spinner2.getSelectedItem().toString()),Integer.parseInt(spinner.getSelectedItem().toString()),checkIn.toString(),checkOut.toString(),(int)price);
+                if(price < 0){
+
+
+                    db.addReservation(Kunde.get(spinner2.getSelectedItem().toString()),Integer.parseInt(spinner.getSelectedItem().toString()),checkIn.toString(),checkOut.toString(),(int)price);
+                    b = new AlertDialog.Builder(NewReservation.this);
+                    b.setCancelable(true);
+                    b.setTitle("Total ");
+                    b.setMessage("Gesamte Price : "+price);
+                    AlertDialog a = b.create();
+                    b.show();
+                }
+                else {
+                    setContentView(R.layout.activity_new_reservation);
+                }
+
+
 
             }
         });
@@ -128,14 +194,23 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
 
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                checkDatum(year);
+
                 month= month+1;
-                Date tag = new Date(year,month,dayOfMonth);
-                String date = dayOfMonth+"/"+month+"/"+year;
-                i= tag.getTime();
-                Toast.makeText(NewReservation.this, "psss "+i, Toast.LENGTH_SHORT).show();
-                //String days = tag.getDay()+"/"+tag.getMonth()+"/"+ tag.getYear();
-                checkIn.setText(date);
+                if(checkDatum(year,month,dayOfMonth)){
+
+                    checkDatum(year,month,dayOfMonth);
+                    Date tag = new Date(year,month,dayOfMonth);
+                    String date = dayOfMonth+"/"+month+"/"+year;
+                    i= tag.getTime();
+                    Toast.makeText(NewReservation.this, "psss "+i, Toast.LENGTH_SHORT).show();
+                    //String days = tag.getDay()+"/"+tag.getMonth()+"/"+ tag.getYear();
+                    checkIn.setText(date);
+                }
+                else{
+                    checkIn.setText(" ");
+                    checkOut.setText(" ");
+                }
+
 
 
 
@@ -155,13 +230,22 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
 
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                checkDatum(year);
+
                 month= month+1;
-                Date tag = new Date(year,month,dayOfMonth);
-                String date = dayOfMonth+"/"+month+"/"+year;
-                i1= tag.getTime();
-                //String days = tag.getDay()+"/"+tag.getMonth()+"/"+ tag.getYear();
-                checkOut.setText(date);
+                if(checkDatum(year,month,dayOfMonth)){
+
+                    Date tag = new Date(year,month,dayOfMonth);
+                    String date = dayOfMonth+"/"+month+"/"+year;
+                    i1= tag.getTime();
+                    //String days = tag.getDay()+"/"+tag.getMonth()+"/"+ tag.getYear();
+                    checkOut.setText(date);
+                }
+                else {
+                    checkIn.setText(" ");
+                    checkOut.setText(" ");
+                }
+
+
 
             }
         };
@@ -187,7 +271,7 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
 
             }
         });
-
+        //Spinner Kunde
         spinner2 =findViewById(R.id.id_Kund);
         ArrayAdapter<String> adapter2= new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item, new ArrayList<>(Kunde.keySet()));
         spinner2.setAdapter(adapter2);
@@ -199,7 +283,7 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String text = parent.getItemAtPosition(position).toString();
+        //String text = parent.getItemAtPosition(position).toString();
 
     }
 

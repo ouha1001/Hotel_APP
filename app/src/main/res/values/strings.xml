@@ -29,5 +29,9 @@
     <string name="username">Username</string>
     <string name="nachname">Nachname</string>
     <string name="geburtsdatum">Geburtsdatum</string>
+    <string name="customer_id">customer_id</string>
+    <string name="room_id">room_id</string>
+    <string name="check_in">check_in</string>
+    <string name="check_out">check_out</string>
 
 </resources>
