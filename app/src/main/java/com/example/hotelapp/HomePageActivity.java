@@ -42,7 +42,7 @@ public class HomePageActivity extends AppCompatActivity {
     }
 
     public void reservierungenBtn(View view) {
-        Intent intent = new Intent(this, ReservierungenList.class);
+        Intent intent = new Intent(this, MyRow.class);
         startActivity(intent);
     }
 

@@ -159,6 +159,22 @@ public class Database extends SQLiteOpenHelper {
         }
         return cursor;
         }
+    Cursor readAllDataReservation(){
+        String query = "SELECT * FROM " + TName;
+        SQLiteDatabase database = this.getReadableDatabase();
 
+        Cursor cursor = null;
 
+        if(database != null){
+            cursor = database.rawQuery(query, null);
+
+        }
+        else {
+            Toast.makeText(context,"Empty Data",Toast.LENGTH_SHORT);
+        }
+        return cursor;
     }
+
+
+
+}

@@ -11,6 +11,7 @@
 
 
     <Spinner
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:id="@+id/id_Kund"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
