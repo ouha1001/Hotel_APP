@@ -58,8 +58,8 @@ public class Database extends SQLiteOpenHelper {
                         "("+ID_Reservation+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
                         Id_Kunde_R+" INTEGER ,"+
                         Id_Zimmer_R+" INTEGER ,"+
-                        DateIn+" TEXT ,"+
-                        DateOut+" TEXT ,"+
+                        DateIn+" TEXT NOT NULL ,"+
+                        DateOut+" TEXT NOT NULL ,"+
                         Gesamt+" INTEGER ); ";
         String query1 =
                 "CREATE TABLE "+TName2+
@@ -174,6 +174,21 @@ public class Database extends SQLiteOpenHelper {
         }
         return cursor;
     }
+
+    void DeleteReservation(String Id_R){
+        SQLiteDatabase database= this.getWritableDatabase();
+        long resultat= database.delete(TName,"ID_Reservation = ?", new String[]{Id_R});
+
+        if(resultat == -1){
+            Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show();
+
+        }else {
+            Toast.makeText(context, "Successfully!", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+
 
 
 

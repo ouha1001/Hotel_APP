@@ -31,9 +31,10 @@ public class AddNewUser extends AppCompatActivity {
             b = new AlertDialog.Builder(this);
             b.setCancelable(true);
             b.setTitle("Kunde Informationen");
-            b.setMessage("Date unvalid");
+            b.setMessage("Geburtstag nicht wahr");
             AlertDialog a=b.create();
             b.show();
+
 
 
             res = false;
@@ -47,7 +48,7 @@ public class AddNewUser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_user);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         db=new Database(this);
         Tvorname=findViewById(R.id.vorname);
         Tnachname=findViewById(R.id.nachname);
@@ -75,12 +76,18 @@ public class AddNewUser extends AppCompatActivity {
 
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    checkDatum(year);
-                    month= month+1;
-                    //Date tag = new Date(year,month,dayOfMonth);
+                month= month+1;
+                if(checkDatum(year)){
+
                     String date = dayOfMonth+"/"+month+"/"+year;
-                    //String days = tag.getDay()+"/"+tag.getMonth()+"/"+ tag.getYear();
+
                     geburtstagK.setText(date);
+                }
+                else {
+                    geburtstagK.setText(null);
+                }
+
+
 
 
 
@@ -91,6 +98,7 @@ public class AddNewUser extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Database db=new Database(AddNewUser.this);
+
                 db.addUser(Tvorname.getText().toString().trim(),Tnachname.getText().toString().trim()
                         ,geburtstagK.getText().toString().trim(),emailK.getText().toString().trim()
                         ,telK.getText().toString().trim(),landK.getText().toString().trim());
