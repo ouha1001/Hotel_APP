@@ -73,7 +73,7 @@ public class HomePageActivity extends AppCompatActivity {
                 sb.append(" Email "+c.getString(4)+" \n ");
                 sb.append(" Tel "+c.getString(5)+" \n ");
                 sb.append(" Land "+c.getString(6)+" \n ");
-
+            }
 
                 AlertDialog.Builder b = new AlertDialog.Builder(this);
                 b.setCancelable(true);
@@ -84,7 +84,7 @@ public class HomePageActivity extends AppCompatActivity {
                 b.show();
 
 
-            }
+
         }
 
     }
