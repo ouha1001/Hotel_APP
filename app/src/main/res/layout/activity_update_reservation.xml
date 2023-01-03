@@ -11,12 +11,16 @@
 
 
     <TextView
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:id="@+id/id_Kund"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:minHeight="48dp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:hint="@string/client_id"
         android:background="#30ffffff"
         app:layout_constraintBottom_toTopOf="@+id/id_typeroom"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,40 +29,51 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-
-
-    <EditText
-        android:id="@+id/id_typeroom"
+    <TextView
+        android:id="@+id/id_reservation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/black"
         android:background="#30ffffff"
-        android:hint="@string/customer_id"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_typeroom1"/>
-
-    <Spinner
-        android:id="@+id/id_typeroom1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:background="#30ffffff"
-        android:hint="@string/customer_id"
+        android:hint="Reservation Number"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_Kund" />
 
-    <EditText
+    <Spinner
+        android:id="@+id/id_typeroom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:background="#30ffffff"
+        android:hint="@string/type_zimmer"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_reservation"/>
+
+
+
+    <Spinner
         android:id="@+id/id_room"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
-        android:hint="@string/room_id"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/black"
         android:background="#30ffffff"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,13 +83,17 @@
 
 
 
-    <EditText
+    <TextView
         android:id="@+id/checkin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:ems="10"
         android:hint="@string/check_in"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/black"
         android:background="#30ffffff"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,6 +109,10 @@
         android:ems="10"
         android:background="#30ffffff"
         android:hint="@string/check_out"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/black"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -97,13 +120,13 @@
         app:layout_constraintTop_toBottomOf="@+id/checkin" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/add_reservation"
+        android:id="@+id/Update_reservation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="32dp"
-        android:text="Speichern"
+        android:text="Update"
         android:background="@drawable/button"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"

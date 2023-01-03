@@ -33,5 +33,7 @@
     <string name="room_id">room_id</string>
     <string name="check_in">check_in</string>
     <string name="check_out">check_out</string>
+    <string name="type_zimmer">Type Zimmer</string>
+    <string name="client_id">Client ID</string>
 
 </resources>

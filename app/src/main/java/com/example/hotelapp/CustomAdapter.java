@@ -45,8 +45,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder,
-                                 @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
              holder.id_Reservation.setText(String.valueOf(id_reservation.get(position)));
              holder.id_kunde.setText(String.valueOf(id_kunde.get(position)));
              holder.id_zimmer.setText(String.valueOf(id_zimmer.get(position)));
@@ -63,8 +62,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                      intent.putExtra("check_In", String.valueOf(datein.get(position)));
                      intent.putExtra("check_Out", String.valueOf(dateout.get(position)));
                      intent.putExtra("gesamt", String.valueOf(gesamt.get(position)));
-
-
                      context.startActivity(intent);
                  }
              });

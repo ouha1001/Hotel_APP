@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -35,7 +36,7 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
     Spinner spinner, spinner1, spinner2;
     Map<Integer, String> rooms = new Zimmer().getRooms();
     Map<String, Integer> Kunde;
-    EditText checkIn, checkOut;
+    TextView checkIn, checkOut;
     long i, i1;
     Button btnadd;
 
@@ -146,6 +147,7 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
 
             }
         });
+        //Check IN
         checkIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,7 +156,6 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
                 datePickerDialog.show();
             }
         });
-
         setListener = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -174,6 +175,7 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
 
             }
         };
+        //Check OUt
         checkOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
