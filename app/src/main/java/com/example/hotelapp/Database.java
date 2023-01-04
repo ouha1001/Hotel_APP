@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.sql.Date;
@@ -16,7 +17,7 @@ import java.util.jar.Attributes;
 
 public class Database extends SQLiteOpenHelper {
 
-    private Context context;
+    private final Context context;
     private static  final  String DB_NAME = "HotelManagement.db";
     private static  final  int Version_db = 1;
     // Table Reservation
@@ -144,6 +145,27 @@ public class Database extends SQLiteOpenHelper {
         return res;
     }
 
+    public boolean checkusername(String username) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery("select * from " + TName2 + " where " + Vorname + " = ?", new String[]{username});
+        boolean result = cursor.getCount() > 0;
+        cursor.close();
+        return result;
+    }
+
+    public boolean checkpassword(String user_id, @NonNull String password) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery("select " + Geburtstag + " from " + TName2 + " where " + ID_Kunde + " =?", new String[]{user_id});
+        cursor.moveToNext();
+        if (cursor.getString(0).replace("/", "").equals(password)) {
+            cursor.close();
+            return true;
+        }
+        cursor.close();
+        Toast.makeText(context, "Wrong password, please check format", Toast.LENGTH_SHORT).show();
+        return false;
+    }
+
     Cursor readAllData(){
         String query = "SELECT * FROM " + TName2;
         SQLiteDatabase database = this.getReadableDatabase();
@@ -170,7 +192,7 @@ public class Database extends SQLiteOpenHelper {
 
         }
         else {
-            Toast.makeText(context,"Empty Data",Toast.LENGTH_SHORT);
+            Toast.makeText(context,"Empty Data",Toast.LENGTH_SHORT).show();
         }
         return cursor;
     }
