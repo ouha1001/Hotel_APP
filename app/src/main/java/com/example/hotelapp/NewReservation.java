@@ -1,10 +1,5 @@
 package com.example.hotelapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -15,15 +10,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,31 +43,30 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
 
     public boolean checkDatum(int year, int month, int DayofMonth) {
 
-        Date date = new Date(year, month, DayofMonth);
+        Date date = new Date(year-1900, month-1, DayofMonth,23,59);
 
         Calendar calendar = Calendar.getInstance();
-
         return calendar.getTime().compareTo(date) < 0;
 
     }
 
-    public boolean checkPeriod(long in, long out) {
-        boolean r;
-        long temp = (out - in) / 86400000;
-        if (temp < 0) {
-            b = new AlertDialog.Builder(this);
-            b.setCancelable(true);
-            b.setTitle("Falsche Information");
-            b.setMessage("Check Out und Check In sind nicht Richtig !!");
-            AlertDialog a = b.create();
-            b.show();
+    //public boolean checkPeriod(long in, long out) {
+    //    boolean r;
+    //    long temp = (out - in) / 86400000;
+    //    if (temp < 0) {
+    //        b = new AlertDialog.Builder(this);
+    //        b.setCancelable(true);
+    //        b.setTitle("Falsche Information");
+    //        b.setMessage("Check Out und Check In sind nicht Richtig !!");
+    //        AlertDialog a = b.create();
+    //        b.show();
 
-            r = true;
-        } else {
-            r = false;
-        }
-        return r;
-    }
+    //        r = true;
+    //    } else {
+    //        r = false;
+    //    }
+    //    return r;
+    //}
 
     public void storeAllClients() {
         Cursor c = db.readAllData();
@@ -126,7 +122,8 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
                 long Result = (i1 - i) / 86400000;
                 long price = (itemselected.equals("Single")) ? 10 * Result : 20 * Result;
                 if (price > 0) {
-                    db.addReservation(Kunde.get(spinner2.getSelectedItem().toString()), Integer.parseInt(spinner.getSelectedItem().toString()), checkIn.toString(), checkOut.toString(), (int) price);
+                    db.addReservation(Kunde.get(spinner2.getSelectedItem().toString()), Integer.parseInt(spinner.getSelectedItem().toString()),
+                            checkIn.getText().toString(), checkOut.getText().toString(), (int) price);
                     b = new AlertDialog.Builder(NewReservation.this);
                     b.setCancelable(true);
                     b.setTitle("Total ");
@@ -207,7 +204,8 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
         };
         //Type Zimmer
         spinner1 = findViewById(R.id.id_typeroom);
-        ArrayAdapter<CharSequence> adapter_ = ArrayAdapter.createFromResource(this, R.array.TypeZimmer, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter_ = ArrayAdapter.createFromResource
+                (this, R.array.TypeZimmer, android.R.layout.simple_spinner_item);
         adapter_.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(adapter_);
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
