@@ -10,10 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.jar.Attributes;
 
 public class Database extends SQLiteOpenHelper {
 
@@ -117,10 +114,8 @@ public class Database extends SQLiteOpenHelper {
 
     }
 
+    public void addUser(String vorname, String nachname, String geburtstag , String email, String tel, String land){
 
-    public boolean addUser(String vorname,String nachname,String geburtstag , String email, String tel, String land){
-
-        boolean res=false;
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -135,15 +130,14 @@ public class Database extends SQLiteOpenHelper {
 
         if(result == -1){
             Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show();
-            res=false;
         }else {
             Toast.makeText(context, "Successfully!", Toast.LENGTH_SHORT).show();
-            res=true;
         }
 
 
-        return res;
     }
+
+
 
     public boolean checkusername(String username) {
         SQLiteDatabase database = this.getWritableDatabase();

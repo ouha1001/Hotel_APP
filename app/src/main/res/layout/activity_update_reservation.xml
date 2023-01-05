@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity_UpdateReservation"
     android:background="@color/colorGreen"
-    android:paddingTop="10dp">
-
+    android:paddingTop="10dp"
+    tools:context=".activity_UpdateReservation">
 
 
     <TextView
@@ -15,14 +14,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
+        android:background="#30ffffff"
+        android:gravity="center"
+        android:hint="@string/client_id"
         android:minHeight="48dp"
+        android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:hint="@string/client_id"
-        android:background="#30ffffff"
-        app:layout_constraintBottom_toTopOf="@+id/id_typeroom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,53 +32,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textColor="@color/black"
         android:background="#30ffffff"
+        android:gravity="center"
         android:hint="Reservation Number"
         android:minHeight="48dp"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_Kund" />
-
-    <Spinner
-        android:id="@+id/id_typeroom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:background="#30ffffff"
-        android:hint="@string/type_zimmer"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_reservation"/>
-
-
-
-    <Spinner
-        android:id="@+id/id_room"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:background="#30ffffff"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_typeroom" />
-
 
 
     <TextView
@@ -88,32 +50,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
+        android:layout_marginTop="30dp"
+        android:background="#30ffffff"
         android:ems="10"
+        android:gravity="center"
         android:hint="@string/check_in"
+        android:minHeight="48dp"
+        android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:background="#30ffffff"
-        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.733"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/id_room" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
-    <EditText
+    <TextView
         android:id="@+id/checkout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
-        android:ems="10"
         android:background="#30ffffff"
+        android:ems="10"
+        android:gravity="center"
         android:hint="@string/check_out"
+        android:minHeight="48dp"
+        android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -126,11 +89,61 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="32dp"
-        android:text="Update"
         android:background="@drawable/button"
+        android:text="Update"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkout" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:hint="room type"
+        app:hintTextColor="@color/cardview_light_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_reservation">
+
+        <AutoCompleteTextView
+            android:id="@+id/id_typeroom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="none"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:hint="Room type" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+
+        <AutoCompleteTextView
+            android:id="@+id/id_room"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="none"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:hint="Room id" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

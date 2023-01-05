@@ -1,20 +1,22 @@
 package com.example.hotelapp.CustomerSide;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.hotelapp.MainActivity;
 import com.example.hotelapp.R;
 
 public class Customer_landing_page extends AppCompatActivity {
     
-    Button my_res,extend_res,feedback,logout;
+    Button my_res,extend_res,feedback;
+    Button logout;
 
 
     @Override
@@ -22,7 +24,20 @@ public class Customer_landing_page extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.landingpage_user);
+        ConstraintLayout constraintLayout = findViewById(R.id.homePageLayout);
+        AnimationDrawable animationDrawable =(AnimationDrawable) constraintLayout.getBackground();
+        animationDrawable.setEnterFadeDuration(2500);
+        animationDrawable.setExitFadeDuration(5000);
+        animationDrawable.start();
 
+
+        logout.findViewById(R.id.button);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Customer_landing_page.this, "logout successful", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         my_res = findViewById(R.id.my_reservation);
         my_res.setOnClickListener(new View.OnClickListener() {
@@ -50,16 +65,6 @@ public class Customer_landing_page extends AppCompatActivity {
                 Intent intent = new Intent(Customer_landing_page.this, Feedback.class);
                 startActivity(intent);
                 finish();
-            }
-        });
-        logout = findViewById(R.id.logout);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Customer_landing_page.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-                Toast.makeText(Customer_landing_page.this, "Successfully Logout", Toast.LENGTH_SHORT).show();
             }
         });
     }
