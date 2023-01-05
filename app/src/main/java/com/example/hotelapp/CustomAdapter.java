@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder>  {
     Context context;
-    private RecycleViewInterface recycleViewInterface;
+
     ArrayList  id_reservation,id_kunde,id_zimmer,gesamt;
     ArrayList  datein,dateout;
     Database db;
@@ -59,14 +59,17 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
              holder.datein.setText(String.valueOf(datein.get(position)));
              holder.dateout.setText(String.valueOf(dateout.get(position)));
              holder.gesamt.setText("Price :"+String.valueOf(gesamt.get(position)));
+
              holder.btndelete.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View v) {
                      int a =Integer.valueOf(position);
-                     a++;
+
                      //Toast.makeText(context, ""+a, Toast.LENGTH_SHORT).show();
 
-                     db.DeleteReservation(String.valueOf(a));
+                    // db.DeleteReservation(id_reservation.get(a).toString());
+                     Intent intent= new Intent(context,MyRow.class);
+                     context.startActivity(intent);
 
                  }
              });
@@ -80,6 +83,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                      intent.putExtra("check_In", String.valueOf(datein.get(position)));
                      intent.putExtra("check_Out", String.valueOf(dateout.get(position)));
                      intent.putExtra("gesamt", String.valueOf(gesamt.get(position)));
+
                      context.startActivity(intent);
                  }
              });
@@ -94,6 +98,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
          TextView id_Reservation,id_kunde,id_zimmer,datein,dateout,gesamt,btndelete;
          LinearLayout linearLayout;
+         RecycleViewInterface recycleViewInterface;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -115,6 +120,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
                         if (pos != RecyclerView.NO_POSITION){
                             recycleViewInterface.Oussama(pos);
+                            Toast.makeText(context, "NO "+pos, Toast.LENGTH_SHORT).show();
                         }
 
                     }

@@ -40,7 +40,7 @@ public class Database extends SQLiteOpenHelper {
     private static  final  String Type = "Type";
 
 
-
+    Map<Integer, String> Kunde;
     public Database(@Nullable Context context) {
         super(context, DB_NAME, null, Version_db);
         this.context=context;
@@ -159,7 +159,17 @@ public class Database extends SQLiteOpenHelper {
         Toast.makeText(context, "Wrong password, please check format", Toast.LENGTH_SHORT).show();
         return false;
     }
+    public void storeAllClients() {
+        Database db = null;
+        Cursor c = db.readAllData();
+        if (c.getCount() == 0) {
+            Toast.makeText(context, "Keinen Kunden", Toast.LENGTH_SHORT).show();        } else {
+            while (c.moveToNext()) {
+                Kunde.put(Integer.parseInt(c.getString(0)), c.getString(1) + " " + c.getString(2));
+            }
+        }
 
+    }
     Cursor readAllData(){
         String query = "SELECT * FROM " + TName2;
         SQLiteDatabase database = this.getReadableDatabase();

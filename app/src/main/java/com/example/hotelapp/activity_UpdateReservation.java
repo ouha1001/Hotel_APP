@@ -1,6 +1,7 @@
 package com.example.hotelapp;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -39,7 +40,7 @@ public class activity_UpdateReservation extends AppCompatActivity {
     Map<Integer, String> Kunde;
     TextView Reservation_id, Kunde_Id, checkIn, checkOut;
     long i, i1;
-    Button btnupdate;
+    Button btnupdate,btndelete;
     DatePickerDialog.OnDateSetListener setListener, setListener_out;
     AlertDialog.Builder b;
     String R_id, K_Id, Z_Id, C_IN, C_OUT, price;
@@ -93,18 +94,7 @@ public class activity_UpdateReservation extends AppCompatActivity {
         return calendar.getTime().compareTo(date) < 0;
     }
 
-    public void storeAllClients() {
-        Cursor c = db.readAllData();
-        if (c.getCount() == 0) {
-            Toast.makeText(this, "Keine Kunden ", Toast.LENGTH_SHORT).show();
-        } else {
-            while (c.moveToNext()) {
-                Kunde.put(Integer.parseInt(c.getString(0)), c.getString(1) + " " + c.getString(2));
 
-            }
-        }
-
-    }
 
     @Override
     protected void onResume() {
@@ -137,7 +127,7 @@ public class activity_UpdateReservation extends AppCompatActivity {
 
         db = new Database(this);
         Kunde = new HashMap<>();
-        storeAllClients();
+        db.storeAllClients();
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
@@ -154,6 +144,18 @@ public class activity_UpdateReservation extends AppCompatActivity {
 
             }
         });
+
+        btndelete = findViewById(R.id.Delete_reservation);
+        btndelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.DeleteReservation(Reservation_id.getText().toString());
+                Intent intent = new Intent(activity_UpdateReservation.this,MyRow.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
         room_type = findViewById(R.id.id_typeroom);
         room_id = findViewById(R.id.id_room);

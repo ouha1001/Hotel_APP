@@ -12,10 +12,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MyRow extends AppCompatActivity implements  RecycleViewInterface{
     RecyclerView recyclerView;
     Database db;
+    Map<Integer, String> Kunde;
+
 
 
 
@@ -49,6 +53,8 @@ public class MyRow extends AppCompatActivity implements  RecycleViewInterface{
         setContentView(R.layout.my_row);
         recyclerView=findViewById(R.id.recyclerView);
         db = new Database(MyRow.this);
+        Kunde = new HashMap<>();
+        db.storeAllClients();
         id_reservation=new ArrayList<>();
         id_kunde= new ArrayList<>();
         id_zimmer = new ArrayList<>();
@@ -78,7 +84,7 @@ public class MyRow extends AppCompatActivity implements  RecycleViewInterface{
         dateout.remove(position);
         gesamt.remove(position);
 
-        customAdapter.notifyAll();
+        customAdapter.notifyItemRemoved(position);
 
     }
 }
