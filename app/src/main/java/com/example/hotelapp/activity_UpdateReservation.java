@@ -48,6 +48,7 @@ public class activity_UpdateReservation extends AppCompatActivity {
                 R_id = getIntent().getStringExtra("Id_Reservation");
                 K_Id = getIntent().getStringExtra("Id_Kunde");
                 Z_Id = getIntent().getStringExtra("Id_Zimmer");
+
                 C_IN = getIntent().getStringExtra("check_In");
                 C_OUT = getIntent().getStringExtra("check_Out");
                 price= getIntent().getStringExtra("gesamt");
@@ -58,7 +59,8 @@ public class activity_UpdateReservation extends AppCompatActivity {
                 checkIn.setText(C_IN);
                 checkOut.setText(C_OUT);
                 int zimmer= Integer.parseInt(Z_Id);
-                room_type.setSelection(getRoom(rooms).get(zimmer-101));
+
+                room_type.setSelection(getRoom(rooms).get(zimmer));
                 room_id.setSelection(zimmer);
 
         }

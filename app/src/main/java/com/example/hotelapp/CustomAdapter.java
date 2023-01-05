@@ -3,6 +3,7 @@ package com.example.hotelapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +13,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder>  {
     Context context;
+    private RecycleViewInterface recycleViewInterface;
     ArrayList  id_reservation,id_kunde,id_zimmer,gesamt;
     ArrayList  datein,dateout;
+    Database db;
+
 
 
 
@@ -33,6 +38,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         this.gesamt=gesamt;
     }
 
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -45,13 +51,25 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
+
              holder.id_Reservation.setText(String.valueOf(id_reservation.get(position)));
              holder.id_kunde.setText(String.valueOf(id_kunde.get(position)));
              holder.id_zimmer.setText(String.valueOf(id_zimmer.get(position)));
              holder.datein.setText(String.valueOf(datein.get(position)));
              holder.dateout.setText(String.valueOf(dateout.get(position)));
              holder.gesamt.setText("Price :"+String.valueOf(gesamt.get(position)));
+             holder.btndelete.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     int a =Integer.valueOf(position);
+                     a++;
+                     //Toast.makeText(context, ""+a, Toast.LENGTH_SHORT).show();
+
+                     db.DeleteReservation(String.valueOf(a));
+
+                 }
+             });
              holder.linearLayout.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View v) {
@@ -74,7 +92,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     public  class MyViewHolder extends RecyclerView.ViewHolder {
 
-         TextView id_Reservation,id_kunde,id_zimmer,datein,dateout,gesamt;
+         TextView id_Reservation,id_kunde,id_zimmer,datein,dateout,gesamt,btndelete;
          LinearLayout linearLayout;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -85,7 +103,23 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             datein = itemView.findViewById(R.id.datein);
             dateout = itemView.findViewById(R.id.dateout);
             gesamt = itemView.findViewById(R.id.gesamt);
+            btndelete = itemView.findViewById(R.id.deletebtn);
             linearLayout=itemView.findViewById(R.id.linearlayout);
+            btndelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(recycleViewInterface != null){
+                        int pos = getAdapterPosition();
+                        Toast.makeText(context, ""+pos, Toast.LENGTH_SHORT).show();
+                        //db.DeleteReservation(String.valueOf(pos));
+
+                        if (pos != RecyclerView.NO_POSITION){
+                            recycleViewInterface.Oussama(pos);
+                        }
+
+                    }
+                }
+            });
 
         }
     }

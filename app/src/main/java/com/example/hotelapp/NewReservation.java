@@ -46,11 +46,11 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
 
     public boolean checkDatum(int year, int month, int DayofMonth) {
 
-        Date date = new Date(year, month, DayofMonth);
+        Date date = new Date(year-1900, month, DayofMonth,23,59);
 
         Calendar calendar = Calendar.getInstance();
 
-        return calendar.getTime().compareTo(date) < 0;
+        return calendar.getTime().compareTo(date) <=  0;
 
     }
 
@@ -124,9 +124,10 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void onClick(View v) {
                 long Result = (i1 - i) / 86400000;
+                Toast.makeText(NewReservation.this, " "+Result, Toast.LENGTH_SHORT).show();
                 long price = (itemselected.equals("Single")) ? 10 * Result : 20 * Result;
                 if (price > 0) {
-                    db.addReservation(Kunde.get(spinner2.getSelectedItem().toString()), Integer.parseInt(spinner.getSelectedItem().toString()), checkIn.toString(), checkOut.toString(), (int) price);
+                    db.addReservation(Kunde.get(spinner2.getSelectedItem().toString()), Integer.parseInt(spinner.getSelectedItem().toString()), checkIn.getText().toString(), checkOut.getText().toString(), (int) price);
                     b = new AlertDialog.Builder(NewReservation.this);
                     b.setCancelable(true);
                     b.setTitle("Total ");
@@ -160,9 +161,8 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
 
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
-                month = month + 1;
-                if (checkDatum(year, month, dayOfMonth)) {
+                    month++;
+                if (checkDatum(year, month-1, dayOfMonth)) {
                     Date tag = new Date(year, month, dayOfMonth);
                     String date = dayOfMonth + "/" + month + "/" + year;
                     i = tag.getTime();
@@ -198,8 +198,8 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
                     //String days = tag.getDay()+"/"+tag.getMonth()+"/"+ tag.getYear();
                     checkOut.setText(date);
                 } else {
-                    checkIn.setText(" ");
-                    checkOut.setText(" ");
+                    checkIn.setText(null);
+                    checkOut.setText(null);
                 }
 
 

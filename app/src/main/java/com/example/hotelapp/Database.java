@@ -177,15 +177,14 @@ public class Database extends SQLiteOpenHelper {
 
     void DeleteReservation(String Id_R){
         SQLiteDatabase database= this.getWritableDatabase();
-        long resultat= database.delete(TName,"ID_Reservation = ?", new String[]{Id_R});
+        long resultat =database.delete(TName,"ID_Reservation = ?", new String[]{Id_R});
+       if(resultat == -1){
+           Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show();
 
-        if(resultat == -1){
-            Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show();
+       }else {
+           Toast.makeText(context, "Successfully!", Toast.LENGTH_SHORT).show();
 
-        }else {
-            Toast.makeText(context, "Successfully!", Toast.LENGTH_SHORT).show();
-
-        }
+       }
     }
 
 

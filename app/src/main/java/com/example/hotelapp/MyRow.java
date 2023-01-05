@@ -1,20 +1,22 @@
 package com.example.hotelapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.widget.Button;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MyRow extends AppCompatActivity {
+public class MyRow extends AppCompatActivity implements  RecycleViewInterface{
     RecyclerView recyclerView;
     Database db;
+
 
 
     ArrayList<Integer> id_reservation,id_kunde,id_zimmer,gesamt;
@@ -34,6 +36,7 @@ public class MyRow extends AppCompatActivity {
                 gesamt.add(Integer.valueOf(c.getString(5)));
                 datein.add(c.getString(3));
                 dateout.add(c.getString(4));
+
 
             }
         }
@@ -61,6 +64,21 @@ public class MyRow extends AppCompatActivity {
         customAdapter = new CustomAdapter(MyRow.this, id_reservation,id_kunde,id_zimmer,datein,dateout,gesamt);
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(MyRow.this));
+
+    }
+
+
+    @Override
+    public void Oussama(int position) {
+
+        id_reservation.remove(position);
+        id_kunde.remove(position);
+        id_zimmer.remove(position);
+        datein.remove(position);
+        dateout.remove(position);
+        gesamt.remove(position);
+
+        customAdapter.notifyAll();
 
     }
 }
