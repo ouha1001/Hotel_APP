@@ -35,5 +35,11 @@
     <string name="check_out">check_out</string>
     <string name="type_zimmer">Type Zimmer</string>
     <string name="client_id">Client ID</string>
+    <string name="feedback_geben">Feedback geben</string>
+    <string name="logout">Logout</string>
+    <string name="welcome">Welcome</string>
+    <string name="meine_reservierungen">Meine Reservierungen</string>
+    <string name="aufenthalt_verl_ngern">Aufenthalt verlängern</string>
+    <string name="kontakt">Kontakt</string>
 
 </resources>

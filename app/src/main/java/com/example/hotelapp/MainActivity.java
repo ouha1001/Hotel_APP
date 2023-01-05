@@ -39,12 +39,23 @@ public class MainActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(username.getText().toString().equals("admin") && password.getText().toString().equals("admin")){
+                if (username.getText().toString().equals("admin") && password.getText().toString().equals("admin")) {
                     Toast.makeText(MainActivity.this, "LOGIN SUCCESSFUL", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MainActivity.this, HomePageActivity.class);
                     startActivity(intent);
-                }else {
-                    Toast.makeText(MainActivity.this, "LOGIN FAILED!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Database db = new Database(MainActivity.this);
+                    String[] strings = username.getText().toString().split("\\.");
+                    if (!db.checkusername(strings[0])) {
+                        Toast.makeText(MainActivity.this, "USER NOT FOUND", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if ((db.checkpassword(strings[1], password.getText().toString().replace("/", "")))) {
+                            Toast.makeText(MainActivity.this, "LOGIN SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                            setContentView(R.layout.landingpage_user);
+                        } else {
+                            Toast.makeText(MainActivity.this, "masd9atch", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
             }
         });
