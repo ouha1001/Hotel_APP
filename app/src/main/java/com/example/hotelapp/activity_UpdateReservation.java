@@ -45,6 +45,17 @@ public class activity_UpdateReservation extends AppCompatActivity {
     AlertDialog.Builder b;
     String R_id, K_Id, Z_Id, C_IN, C_OUT, price;
 
+    public void storeAllClients() {
+        Cursor c = db.readAllData();
+        if (c.getCount() == 0) {
+            Toast.makeText(this, "Keinen Kunden", Toast.LENGTH_SHORT).show();        } else {
+            while (c.moveToNext()) {
+                Kunde.put(Integer.parseInt(c.getString(0)), c.getString(1) + " " + c.getString(2));
+            }
+        }
+
+    }
+
     public void getAndSetIntentData() {
         if (getIntent().hasExtra("Id_Reservation") && getIntent().hasExtra("Id_Kunde")
                 && getIntent().hasExtra("Id_Zimmer") && getIntent().hasExtra("check_In")
@@ -127,7 +138,7 @@ public class activity_UpdateReservation extends AppCompatActivity {
 
         db = new Database(this);
         Kunde = new HashMap<>();
-        db.storeAllClients();
+        storeAllClients();
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
@@ -142,6 +153,14 @@ public class activity_UpdateReservation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                Cursor c=db.storeAllDataReservation(Integer.parseInt(room_id.getText().toString()),checkIn.getText().toString(),checkOut.getText().toString());
+
+                if(c.getCount()>0){
+                    Toast.makeText(activity_UpdateReservation.this, "is reserved ", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(activity_UpdateReservation.this, "Free Room", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

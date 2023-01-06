@@ -121,24 +121,32 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
             public void onClick(View v) {
                 long Result = (i1 - i) / 86400000;
                 long price = (itemselected.equals("Single")) ? 10 * Result : 20 * Result;
-                if (price > 0) {
-                    db.addReservation(Kunde.get(spinner2.getSelectedItem().toString()), Integer.parseInt(spinner.getSelectedItem().toString()),
-                            checkIn.getText().toString(), checkOut.getText().toString(), (int) price);
-                    b = new AlertDialog.Builder(NewReservation.this);
-                    b.setCancelable(true);
-                    b.setTitle("Total ");
-                    b.setMessage("Gesamte Price : " + price);
-                    AlertDialog a = b.create();
-                    b.show();
-                } else {
-                    b = new AlertDialog.Builder(NewReservation.this);
-                    b.setCancelable(true);
-                    b.setTitle("Falsche Information");
-                    b.setMessage("Check Out und Check In sind nicht Richtig !!");
-                    AlertDialog a = b.create();
-                    b.show();
-                    checkIn.setText(null);
-                    checkOut.setText(null);
+                Cursor c=db.storeAllDataReservation(Integer.parseInt(spinner.getSelectedItem().toString()),checkIn.getText().toString(),checkOut.getText().toString());
+                if(c.getCount()>0) {
+                    Toast.makeText(NewReservation.this, " "+c.getCount(), Toast.LENGTH_SHORT).show();
+                }
+                else {                    Toast.makeText(NewReservation.this, ""+c.getCount(), Toast.LENGTH_SHORT).show();
+
+                    if (price > 0) {
+                        db.addReservation(Kunde.get(spinner2.getSelectedItem().toString()), Integer.parseInt(spinner.getSelectedItem().toString()),
+                                checkIn.getText().toString(), checkOut.getText().toString(), (int) price);
+                        b = new AlertDialog.Builder(NewReservation.this);
+                        b.setCancelable(true);
+                        b.setTitle("Total ");
+                        b.setMessage("Gesamte Price : " + price);
+                        AlertDialog a = b.create();
+                        b.show();
+                    } else {
+                        b = new AlertDialog.Builder(NewReservation.this);
+                        b.setCancelable(true);
+                        b.setTitle("Falsche Information");
+                        b.setMessage("Check Out und Check In sind nicht Richtig !!");
+                        AlertDialog a = b.create();
+                        b.show();
+                        checkIn.setText(null);
+                        checkOut.setText(null);
+                    }
+
                 }
 
 
@@ -161,7 +169,7 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
                 month = month + 1;
                 if (checkDatum(year, month, dayOfMonth)) {
                     Date tag = new Date(year, month, dayOfMonth);
-                    String date = dayOfMonth + "/" + month + "/" + year;
+                    String date = year + "-" + month + "-" + dayOfMonth;
                     i = tag.getTime();
                     checkIn.setText(date);
                 } else {
@@ -190,13 +198,13 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
                 if (checkDatum(year, month, dayOfMonth)) {
 
                     Date tag = new Date(year, month, dayOfMonth);
-                    String date = dayOfMonth + "/" + month + "/" + year;
+                    String date = year + "-" + month + "-" + dayOfMonth;
                     i1 = tag.getTime();
                     //String days = tag.getDay()+"/"+tag.getMonth()+"/"+ tag.getYear();
                     checkOut.setText(date);
                 } else {
-                    checkIn.setText(" ");
-                    checkOut.setText(" ");
+                    checkIn.setText(null);
+                    checkOut.setText(null);
                 }
 
 

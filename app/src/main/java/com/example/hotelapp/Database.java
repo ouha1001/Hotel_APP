@@ -34,11 +34,6 @@ public class Database extends SQLiteOpenHelper {
     private static  final  String Email = "Email";
     private static  final  String Tel = "Tel";
     private static  final  String Land = "Land";
-    // Table zimmer
-    private static  final  String TName3 = "Zimmer";
-    private static  final  String ID_Zimmer = "ID_Zimmer";
-    private static  final  String Type = "Type";
-
 
     Map<Integer, String> Kunde;
     public Database(@Nullable Context context) {
@@ -159,34 +154,9 @@ public class Database extends SQLiteOpenHelper {
         Toast.makeText(context, "Wrong password, please check format", Toast.LENGTH_SHORT).show();
         return false;
     }
-    public void storeAllClients() {
-        Database db = null;
-        Cursor c = db.readAllData();
-        if (c.getCount() == 0) {
-            Toast.makeText(context, "Keinen Kunden", Toast.LENGTH_SHORT).show();        } else {
-            while (c.moveToNext()) {
-                Kunde.put(Integer.parseInt(c.getString(0)), c.getString(1) + " " + c.getString(2));
-            }
-        }
 
-    }
     Cursor readAllData(){
         String query = "SELECT * FROM " + TName2;
-        SQLiteDatabase database = this.getReadableDatabase();
-
-        Cursor cursor = null;
-
-        if(database != null){
-            cursor = database.rawQuery(query, null);
-
-        }
-        else {
-            Toast.makeText(context,"Empty Data",Toast.LENGTH_SHORT);
-        }
-        return cursor;
-        }
-    Cursor readAllDataReservation(){
-        String query = "SELECT * FROM " + TName;
         SQLiteDatabase database = this.getReadableDatabase();
 
         Cursor cursor = null;
@@ -199,7 +169,39 @@ public class Database extends SQLiteOpenHelper {
             Toast.makeText(context,"Empty Data",Toast.LENGTH_SHORT).show();
         }
         return cursor;
-    }
+        }
+   Cursor storeAllDataReservation(int ID_room,String DateIn,String DateOut){
+       String query = " SELECT * FROM " + TName ;
+       SQLiteDatabase database = this.getWritableDatabase();
+
+       Cursor cursor = null;
+
+       if(database != null){
+
+           cursor = database.rawQuery(query, null);
+
+       }
+
+       return cursor;
+   }
+   Cursor readAllDataReservation(){
+       String query = "SELECT R.ID_Reservation,R.Id_Kunde,R.Id_Zimmer,R.DateIn,R.DateOut,R.Gesamt," +
+               " k.Vorname,k.Nachname FROM " + TName+" R Inner join "+ TName2+" K " +
+               " ON R.Id_Kunde = K.ID_Kunde ";
+
+       SQLiteDatabase database = this.getReadableDatabase();
+       Cursor cursor ;
+
+       if(database != null){
+           cursor = database.rawQuery(query, null);
+
+       }
+       else {
+           cursor=null;
+           Toast.makeText(context,"Empty Data",Toast.LENGTH_SHORT).show();
+       }
+       return cursor;
+   }
 
     void DeleteReservation(String Id_R){
         SQLiteDatabase database= this.getWritableDatabase();
@@ -208,7 +210,7 @@ public class Database extends SQLiteOpenHelper {
            Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show();
 
        }else {
-           Toast.makeText(context, "Successfully!", Toast.LENGTH_SHORT).show();
+           //Toast.makeText(context, "Successfully!", Toast.LENGTH_SHORT).show();
 
        }
     }
