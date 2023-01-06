@@ -144,7 +144,7 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getWritableDatabase();
         Cursor cursor = database.rawQuery("select " + Geburtstag + " from " + TName2 + " where " + ID_Kunde + " =?", new String[]{user_id});
         cursor.moveToNext();
-        if (cursor.getString(0).replace("/", "").equals(password)) {
+        if (cursor.getString(0).replace("-", "").equals(password)) {
             cursor.close();
             return true;
         }

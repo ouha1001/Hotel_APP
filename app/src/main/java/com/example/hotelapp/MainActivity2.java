@@ -13,7 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-public class HomePageActivity extends AppCompatActivity {
+public class MainActivity2 extends AppCompatActivity {
 
     Button logoutbtn;
     Database db;
@@ -35,10 +35,10 @@ public class HomePageActivity extends AppCompatActivity {
         logoutbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HomePageActivity.this, MainActivity.class);
+                Intent intent = new Intent(MainActivity2.this, MainActivity.class);
                 startActivity(intent);
                 finish();
-                Toast.makeText(HomePageActivity.this, "Succesfully Logout", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity2.this, "Succesfully Logout", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -77,12 +77,12 @@ public class HomePageActivity extends AppCompatActivity {
                 sb.append(" Land : ").append(c.getString(6)).append(" \n ");
             }
 
-                AlertDialog.Builder b = new AlertDialog.Builder(this);
-                b.setCancelable(true);
-                b.setTitle("Kunde Informationen");
-                b.setMessage(sb.toString());
-                b.create();
-                b.show();
+            AlertDialog.Builder b = new AlertDialog.Builder(this);
+            b.setCancelable(true);
+            b.setTitle("Kunde Informationen");
+            b.setMessage(sb.toString());
+            b.create();
+            b.show();
 
 
 

@@ -46,7 +46,7 @@ public class activity_UpdateReservation extends AppCompatActivity {
     AlertDialog.Builder b;
     String R_id, K_Id, Z_Id, C_IN, C_OUT, price;
 
-    public void storeAllClients() {
+    public void storeClient() {
         Cursor c = db.readAllData();
         if (c.getCount() == 0) {
             Toast.makeText(this, "Keinen Kunden", Toast.LENGTH_SHORT).show();} else {
@@ -57,7 +57,8 @@ public class activity_UpdateReservation extends AppCompatActivity {
 
     }
 
-    public void getAndSetIntentData() {
+
+    public void getAndSetIntentDataCustomer() {
         if (getIntent().hasExtra("Id_Reservation") && getIntent().hasExtra("Id_Kunde")
                 && getIntent().hasExtra("Id_Zimmer") && getIntent().hasExtra("check_In")
                 && getIntent().hasExtra("check_Out") && getIntent().hasExtra("gesamt")) {
@@ -130,7 +131,7 @@ public class activity_UpdateReservation extends AppCompatActivity {
 
         db = new Database(this);
         Kunde = new HashMap<>();
-        storeAllClients();
+        storeClient();
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
@@ -154,7 +155,7 @@ public class activity_UpdateReservation extends AppCompatActivity {
         room_id = findViewById(R.id.id_room);
         btnupdate = findViewById(R.id.Update_reservation);
 
-        getAndSetIntentData();
+        getAndSetIntentDataCustomer();
 
         //Check IN
         checkIn.setOnClickListener(new View.OnClickListener() {
