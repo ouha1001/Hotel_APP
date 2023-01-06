@@ -1,8 +1,5 @@
 package com.example.hotelapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -10,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -39,24 +39,25 @@ public class MainActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (username.getText().toString().equals("admin") && password.getText().toString().equals("admin")) {
-                    Toast.makeText(MainActivity.this, "LOGIN SUCCESSFUL", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MainActivity.this, HomePageActivity.class);
-                    startActivity(intent);
-                } else {
-                    Database db = new Database(MainActivity.this);
-                    String[] strings = username.getText().toString().split("\\.");
-                    if (!db.checkusername(strings[0])) {
-                        Toast.makeText(MainActivity.this, "USER NOT FOUND", Toast.LENGTH_SHORT).show();
-                    } else {
-                        if ((db.checkpassword(strings[1], password.getText().toString().replace("/", "")))) {
-                            Toast.makeText(MainActivity.this, "LOGIN SUCCESSFUL", Toast.LENGTH_SHORT).show();
-                            setContentView(R.layout.landingpage_user);
-                        } else {
-                            Toast.makeText(MainActivity.this, "masd9atch", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
+               // Toast.makeText(MainActivity.this, "za3ma ? " + db.getdate("2023-01-15","2023-01-20"), Toast.LENGTH_SHORT).show();
+             if (username.getText().toString().equals("admin") && password.getText().toString().equals("admin")) {
+                 Toast.makeText(MainActivity.this, "LOGIN SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                 Intent intent = new Intent(MainActivity.this, HomePageActivity.class);
+                 startActivity(intent);
+             } else {
+                 Database db = new Database(MainActivity.this);
+                 String[] strings = username.getText().toString().split("\\.");
+                 if (!db.checkusername(strings[0])) {
+                     Toast.makeText(MainActivity.this, "USER NOT FOUND", Toast.LENGTH_SHORT).show();
+                 } else {
+                     if ((db.checkpassword(strings[1], password.getText().toString().replace("/", "")))) {
+                         Toast.makeText(MainActivity.this, "LOGIN SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                         setContentView(R.layout.landingpage_user);
+                     } else {
+                         Toast.makeText(MainActivity.this, "masd9atch", Toast.LENGTH_SHORT).show();
+                     }
+                 }
+             }
             }
         });
     }

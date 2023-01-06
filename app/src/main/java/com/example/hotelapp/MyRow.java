@@ -1,14 +1,14 @@
 package com.example.hotelapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -41,24 +41,30 @@ public class MyRow extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            recreate();
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_row);
-        recyclerView=findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         db = new Database(MyRow.this);
-        id_reservation=new ArrayList<>();
-        id_kunde= new ArrayList<>();
+        id_reservation = new ArrayList<>();
+        id_kunde = new ArrayList<>();
         id_zimmer = new ArrayList<>();
-        datein =new ArrayList<>();
-        dateout=new ArrayList<>();
+        datein = new ArrayList<>();
+        dateout = new ArrayList<>();
         gesamt=new ArrayList<>();
-
-
 
 
         storeAllDataReservation();
 
-        customAdapter = new CustomAdapter(MyRow.this, id_reservation,id_kunde,id_zimmer,datein,dateout,gesamt);
+        customAdapter = new CustomAdapter(MyRow.this, this, id_reservation, id_kunde, id_zimmer, datein, dateout, gesamt);
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(MyRow.this));
 

@@ -1,7 +1,7 @@
 package com.example.hotelapp;
 
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -9,28 +9,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder>  {
+public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
     Context context;
-    ArrayList  id_reservation,id_kunde,id_zimmer,gesamt;
-    ArrayList  datein,dateout;
+    Activity activity;
+    ArrayList<Integer> id_reservation, id_kunde, id_zimmer, gesamt;
+    ArrayList<String> datein, dateout;
 
 
-
-     CustomAdapter(Context context, ArrayList<Integer> id_reservation,ArrayList<Integer> id_kunde,ArrayList<Integer> id_zimmer, ArrayList<String> datein,ArrayList<String> dateout,ArrayList<Integer> gesamt) {
-        this.context=context;
-        this.id_reservation=id_reservation;
-        this.id_kunde=id_kunde;
-        this.id_zimmer=id_zimmer;
-        this.datein=datein;
-        this.dateout=dateout;
-        this.gesamt=gesamt;
+    CustomAdapter(Activity activity, Context context, ArrayList<Integer> id_reservation, ArrayList<Integer> id_kunde, ArrayList<Integer> id_zimmer, ArrayList<String> datein, ArrayList<String> dateout, ArrayList<Integer> gesamt) {
+        this.activity = activity;
+        this.context = context;
+        this.id_reservation = id_reservation;
+        this.id_kunde = id_kunde;
+        this.id_zimmer = id_zimmer;
+        this.datein = datein;
+        this.dateout = dateout;
+        this.gesamt = gesamt;
     }
 
     @NonNull
@@ -45,24 +45,25 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
-             holder.id_Reservation.setText(String.valueOf(id_reservation.get(position)));
-             holder.id_kunde.setText(String.valueOf(id_kunde.get(position)));
-             holder.id_zimmer.setText(String.valueOf(id_zimmer.get(position)));
-             holder.datein.setText(String.valueOf(datein.get(position)));
-             holder.dateout.setText(String.valueOf(dateout.get(position)));
-             holder.gesamt.setText("Price :"+String.valueOf(gesamt.get(position)));
-             holder.linearLayout.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View v) {
-                     Intent intent =  new Intent(context,activity_UpdateReservation.class);
-                     intent.putExtra("Id_Reservation", String.valueOf(id_reservation.get(position)));
-                     intent.putExtra("Id_Kunde", String.valueOf(id_kunde.get(position)));
-                     intent.putExtra("Id_Zimmer", String.valueOf(id_zimmer.get(position)));
-                     intent.putExtra("check_In", String.valueOf(datein.get(position)));
-                     intent.putExtra("check_Out", String.valueOf(dateout.get(position)));
-                     intent.putExtra("gesamt", String.valueOf(gesamt.get(position)));
-                     context.startActivity(intent);
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+
+        holder.id_Reservation.setText(String.valueOf(id_reservation.get(position)));
+        holder.id_kunde.setText(String.valueOf(id_kunde.get(position)));
+        holder.id_zimmer.setText(String.valueOf(id_zimmer.get(position)));
+        holder.datein.setText(String.valueOf(datein.get(position)));
+        holder.dateout.setText(String.valueOf(dateout.get(position)));
+        holder.gesamt.setText(String.format("Price :%s", gesamt.get(position)));
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, activity_UpdateReservation.class);
+                intent.putExtra("Id_Reservation", String.valueOf(id_reservation.get(position)));
+                intent.putExtra("Id_Kunde", String.valueOf(id_kunde.get(position)));
+                intent.putExtra("Id_Zimmer", String.valueOf(id_zimmer.get(position)));
+                intent.putExtra("check_In", String.valueOf(datein.get(position)));
+                intent.putExtra("check_Out", String.valueOf(dateout.get(position)));
+                intent.putExtra("gesamt", String.valueOf(gesamt.get(position)));
+                activity.startActivityForResult(intent, 1);
                  }
              });
     }
@@ -72,10 +73,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         return id_reservation.size();
     }
 
-    public  class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-         TextView id_Reservation,id_kunde,id_zimmer,datein,dateout,gesamt;
-         LinearLayout linearLayout;
+        TextView id_Reservation, id_kunde, id_zimmer, datein, dateout, gesamt;
+        LinearLayout linearLayout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
