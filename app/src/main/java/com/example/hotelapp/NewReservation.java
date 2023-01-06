@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -92,6 +93,20 @@ public class NewReservation extends AppCompatActivity {
         return (roomtype.getText().toString().equals("Single")) ? days * 10 : days * 20;
     }
 
+    public boolean checkroomavailibility(String id) {
+
+        Cursor cursor = db.getdatesbyroom(id);
+        if (cursor.getCount() == 0) return true;
+        while (cursor.moveToNext()) {
+            if (isBetween(cursor.getString(0), checkIn.getText().toString(), checkOut.getText().toString())
+                    || isBetween(cursor.getString(1), checkIn.getText().toString(), checkOut.getText().toString())
+                    || isBetween(checkIn.getText().toString(), cursor.getString(0), cursor.getString(1))) {
+                Toast.makeText(this, "Room " + id + " is not available !", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+        return true;
+    }
     private static long getDays(@NonNull String checkin, @NonNull String checkout) {
         String[] a = checkin.split("-");
         String[] b = checkout.split("-");
@@ -136,20 +151,17 @@ public class NewReservation extends AppCompatActivity {
         btnadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Cursor cursor = db.storeAllDataReservation(room_id.getText().toString());
-                // 3 and 4
-
-
                 long price = price(checkIn.getText().toString(), checkOut.getText().toString());
-                db.addReservation(Kunde.get(customer_id.getText().toString()), Integer.parseInt(room_id.getText().toString()),
-                        checkIn.getText().toString(), checkOut.getText().toString(), (int) price);
-                b = new AlertDialog.Builder(NewReservation.this);
-                b.setCancelable(true);
-                b.setTitle("Total ");
-                b.setMessage("Gesamte Price : " + price);
-                AlertDialog a = b.create();
-                b.show();
-
+                if (checkroomavailibility(room_id.getText().toString())) {
+                    db.addReservation(Kunde.get(customer_id.getText().toString()), Integer.parseInt(room_id.getText().toString()),
+                            checkIn.getText().toString(), checkOut.getText().toString(), (int) price);
+                    b = new AlertDialog.Builder(NewReservation.this);
+                    b.setCancelable(true);
+                    b.setTitle("Total ");
+                    b.setMessage("Gesamte Price : " + price);
+                    AlertDialog a = b.create();
+                    b.show();
+                }
             }
         });
 

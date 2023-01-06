@@ -89,7 +89,31 @@ public class activity_UpdateReservation extends AppCompatActivity {
     }
 
 
+    @NonNull
+    public static Boolean isBetween(@NonNull String TestDate, @NonNull String checkin, @NonNull String checkout) {
+        String[] a = checkin.split("-");
+        String[] b = checkout.split("-");
+        String[] c = TestDate.split("-");
+        long a1 = new Date(Integer.parseInt(a[0]) - 1900, Integer.parseInt(a[1]) - 1, Integer.parseInt(a[2])).getTime();
+        long b1 = new Date(Integer.parseInt(b[0]) - 1900, Integer.parseInt(b[1]) - 1, Integer.parseInt(b[2])).getTime();
+        long c1 = new Date(Integer.parseInt(c[0]) - 1900, Integer.parseInt(c[1]) - 1, Integer.parseInt(c[2])).getTime();
+        return (c1 <= b1) && (c1 >= a1);
+    }
 
+    public boolean checkroomavailibility(String id) {
+        List<List<String>> dates = new ArrayList<>();
+        Cursor cursor = db.getdatesbyroom(id);
+        if (cursor.getCount() == 0) return true;
+        while (cursor.moveToNext()) {
+            if (isBetween(cursor.getString(0), checkIn.getText().toString(), checkOut.getText().toString())
+                    || isBetween(cursor.getString(1), checkIn.getText().toString(), checkOut.getText().toString())
+                    || isBetween(checkIn.getText().toString(), cursor.getString(0), cursor.getString(1))) {
+                Toast.makeText(this, "Room " + id + " is not available !", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+        return true;
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -154,6 +178,21 @@ public class activity_UpdateReservation extends AppCompatActivity {
         room_type = findViewById(R.id.id_typeroom);
         room_id = findViewById(R.id.id_room);
         btnupdate = findViewById(R.id.Update_reservation);
+        btnupdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkroomavailibility(room_id.getText().toString())) {
+                    db.updateReservation((checkOut.getText().toString()), (checkIn.getText().toString()),
+                            Integer.parseInt(room_id.getText().toString()), Integer.parseInt(R_id),
+                            (int) price(checkIn.getText().toString(), checkOut.getText().toString()));
+                    Intent intent = new Intent(activity_UpdateReservation.this, MyRow.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+
+            }
+        });
 
         getAndSetIntentDataCustomer();
 
@@ -204,18 +243,7 @@ public class activity_UpdateReservation extends AppCompatActivity {
                 }
             }
         };
-        btnupdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                db.updateReservation((checkOut.getText().toString()), (checkIn.getText().toString()),
-                        Integer.parseInt(room_id.getText().toString()), Integer.parseInt(R_id),
-                        (int) price(checkIn.getText().toString(), checkOut.getText().toString()));
-                Intent intent = new Intent(activity_UpdateReservation.this,MyRow.class);
-                startActivity(intent);
-                finish();
-            }
-        });
 
     }
 }

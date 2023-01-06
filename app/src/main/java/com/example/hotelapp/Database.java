@@ -217,6 +217,20 @@ public class Database extends SQLiteOpenHelper {
 
        return cursor;
    }
+
+    public Cursor getdatesbyroom(String roomid) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor=null;
+        if (database != null) {
+            cursor = database.rawQuery("select " + DateIn + " , "+ DateOut+" from " + TName + " where " + Id_Zimmer_R+ " = ?", new String[]{roomid});
+
+        } else {
+            Toast.makeText(context, "Empty Data", Toast.LENGTH_SHORT).show();
+        }
+        return cursor;
+
+    }
+
    Cursor readAllDataReservation(){
        String query = "SELECT R.ID_Reservation,R.Id_Kunde,R.Id_Zimmer,R.DateIn,R.DateOut,R.Gesamt," +
                " k.Vorname,k.Nachname FROM " + TName+" R Inner join "+ TName2+" K " +
