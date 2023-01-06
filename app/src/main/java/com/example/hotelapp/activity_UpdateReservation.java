@@ -35,10 +35,22 @@ public class activity_UpdateReservation extends AppCompatActivity {
     Map<Integer, String> rooms = new Zimmer().getRooms();
     Map<Integer, String> Kunde;
     TextView Reservation_id, Kunde_Id, checkIn, checkOut;
-    Button btnupdate;
+
+    Button btnupdate,btndelete;
+
     DatePickerDialog.OnDateSetListener setListener, setListener_out;
     String R_id, K_Id, Z_Id, C_IN, C_OUT, price;
 
+    public void storeAllClients() {
+        Cursor c = db.readAllData();
+        if (c.getCount() == 0) {
+            Toast.makeText(this, "Keinen Kunden", Toast.LENGTH_SHORT).show();} else {
+            while (c.moveToNext()) {
+                Kunde.put(Integer.parseInt(c.getString(0)), c.getString(1) + " " + c.getString(2));
+            }
+        }
+
+    }
 
     public void getAndSetIntentData() {
         if (getIntent().hasExtra("Id_Reservation") && getIntent().hasExtra("Id_Kunde")
@@ -70,17 +82,6 @@ public class activity_UpdateReservation extends AppCompatActivity {
         return calendar.getTime().compareTo(date) < 0;
     }
 
-    public void storeAllClients() {
-        Cursor c = db.readAllData();
-        if (c.getCount() == 0) {
-            Toast.makeText(this, "Keine Kunden ", Toast.LENGTH_SHORT).show();
-        } else {
-            while (c.moveToNext()) {
-                Kunde.put(Integer.parseInt(c.getString(0))
-                        , c.getString(1) + " " + c.getString(2));
-            }
-        }
-    }
 
 
     @Override
@@ -132,6 +133,17 @@ public class activity_UpdateReservation extends AppCompatActivity {
         Kunde_Id = findViewById(R.id.id_Kund);
         checkIn = findViewById(R.id.checkin);
         checkOut = findViewById(R.id.checkout);
+        btndelete = findViewById(R.id.Delete_reservation);
+        btndelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.DeleteReservation(Reservation_id.getText().toString());
+                Intent intent = new Intent(activity_UpdateReservation.this,MyRow.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         room_type = findViewById(R.id.id_typeroom);
         room_id = findViewById(R.id.id_room);
         btnupdate = findViewById(R.id.Update_reservation);

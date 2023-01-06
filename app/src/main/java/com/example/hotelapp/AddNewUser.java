@@ -1,6 +1,7 @@
 package com.example.hotelapp;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -8,15 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Calendar;
-
 public class AddNewUser extends AppCompatActivity {
     Database db;
-    TextView Tvorname, Tnachname, geburtstagK, telK, landK, emailK;
+    EditText Tvorname,Tnachname,telK,landK,emailK;
+    TextView geburtstagK;
     Button btnadduser;
     DatePickerDialog.OnDateSetListener setListener;
     AlertDialog.Builder b;
@@ -89,6 +88,11 @@ public class AddNewUser extends AppCompatActivity {
                 db.addUser(Tvorname.getText().toString().trim(), Tnachname.getText().toString().trim()
                         , geburtstagK.getText().toString().trim(), emailK.getText().toString().trim()
                         , telK.getText().toString().trim(), landK.getText().toString().trim());
+
+                Intent intent = new Intent(AddNewUser.this,HomePageActivity.class);
+                startActivity(intent);
+
+
             }
         });
     }

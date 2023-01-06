@@ -121,6 +121,7 @@ public class NewReservation extends AppCompatActivity {
         btnadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 long price = price(checkIn.getText().toString(), checkOut.getText().toString());
                 db.addReservation(Kunde.get(customer_id.getText().toString()), Integer.parseInt(room_id.getText().toString()),
                         checkIn.getText().toString(), checkOut.getText().toString(), (int) price);
@@ -130,6 +131,7 @@ public class NewReservation extends AppCompatActivity {
                 b.setMessage("Gesamte Price : " + price);
                 AlertDialog a = b.create();
                 b.show();
+ 
             }
         });
 
@@ -148,6 +150,7 @@ public class NewReservation extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 month = month + 1;
                 if (checkDatum(year, month, dayOfMonth)) {
+
                     String date = year + "-" + month + "-" + dayOfMonth;
                     checkIn.setText(date);
                 } else {
@@ -171,6 +174,7 @@ public class NewReservation extends AppCompatActivity {
 
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
                 month++;
                 String date = year + "-" + month + "-" + dayOfMonth;
                 long x = getDays(checkIn.getText().toString(), date);
@@ -179,6 +183,7 @@ public class NewReservation extends AppCompatActivity {
                 } else {
                     checkOut.setText(null);
                     Toast.makeText(NewReservation.this, "Please Select a valid Checkout Date!", Toast.LENGTH_SHORT).show();
+
                 }
             }
         };

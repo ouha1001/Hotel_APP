@@ -36,7 +36,7 @@ public class Database extends SQLiteOpenHelper {
     private static  final  String Land = "Land";
 
 
-
+    Map<Integer, String> Kunde;
     public Database(@Nullable Context context) {
         super(context, DB_NAME, null, Version_db);
         this.context=context;
@@ -179,7 +179,7 @@ public class Database extends SQLiteOpenHelper {
             cursor = database.rawQuery(query, null);
 
         } else {
-            Toast.makeText(context, "Empty Data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,"Empty Data",Toast.LENGTH_SHORT).show();
         }
         return cursor;
     }
@@ -192,35 +192,50 @@ public class Database extends SQLiteOpenHelper {
             return cursor.getString(0) + "   " + cursor.getString(1);
         }
 
-        return "9awednaha ";
-    }
+   Cursor storeAllDataReservation(int ID_room,String DateIn,String DateOut){
+       String query = " SELECT * FROM " + TName ;
+       SQLiteDatabase database = this.getWritableDatabase();
 
-    Cursor readAllDataReservation() {
-        String query = "SELECT * FROM " + TName;
-        SQLiteDatabase database = this.getReadableDatabase();
+       Cursor cursor = null;
 
-        Cursor cursor = null;
 
-        if (database != null) {
-            cursor = database.rawQuery(query, null);
+       if(database != null){
 
-        } else {
-            Toast.makeText(context, "Empty Data", Toast.LENGTH_SHORT).show();
-        }
-        return cursor;
-    }
+           cursor = database.rawQuery(query, null);
+
+       }
+
+       return cursor;
+   }
+   Cursor readAllDataReservation(){
+       String query = "SELECT R.ID_Reservation,R.Id_Kunde,R.Id_Zimmer,R.DateIn,R.DateOut,R.Gesamt," +
+               " k.Vorname,k.Nachname FROM " + TName+" R Inner join "+ TName2+" K " +
+               " ON R.Id_Kunde = K.ID_Kunde ";
+
+       SQLiteDatabase database = this.getReadableDatabase();
+       Cursor cursor ;
+
+       if(database != null){
+           cursor = database.rawQuery(query, null);
+
+       }
+       else {
+           cursor=null;
+           Toast.makeText(context,"Empty Data",Toast.LENGTH_SHORT).show();
+       }
+       return cursor;
+   }
 
     void DeleteReservation(String Id_R){
         SQLiteDatabase database= this.getWritableDatabase();
-        long resultat= database.delete(TName,"ID_Reservation = ?", new String[]{Id_R});
+        long resultat =database.delete(TName,"ID_Reservation = ?", new String[]{Id_R});
+       if(resultat == -1){
+           Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show();
 
-        if(resultat == -1){
-            Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show();
+       }else {
+           //Toast.makeText(context, "Successfully!", Toast.LENGTH_SHORT).show();
 
-        }else {
-            Toast.makeText(context, "Successfully!", Toast.LENGTH_SHORT).show();
-
-        }
+       }
     }
 
 
