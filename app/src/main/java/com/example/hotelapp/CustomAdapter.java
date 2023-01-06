@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -24,6 +23,7 @@ import java.util.Map;
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
     Context context;
     Activity activity;
+
 
     ArrayList<Integer> id_reservation, id_kunde, id_zimmer, gesamt;
     ArrayList<String> datein, dateout, vorname, nachname;
@@ -44,6 +44,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     }
 
     CustomAdapter(Activity activity,Context context, ArrayList<Integer> id_reservation, ArrayList<Integer> id_kunde, ArrayList<Integer> id_zimmer, ArrayList<String> datein, ArrayList<String> dateout, ArrayList<Integer> gesamt, ArrayList<String> vorname, ArrayList<String> nachname) {
+
         this.context = context;
         this.id_reservation = id_reservation;
         this.id_kunde = id_kunde;
@@ -51,6 +52,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         this.datein = datein;
         this.dateout = dateout;
         this.gesamt = gesamt;
+
         this.vorname = vorname;
         this.nachname = nachname;
         this.activity=activity;
@@ -114,17 +116,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                         });
 
                         aleBuilder.show();
-
-
-
-
-
                 }
-
-
-
             }
         });
+
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,9 +131,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                 intent.putExtra("check_Out", String.valueOf(dateout.get(position)));
                 intent.putExtra("gesamt", String.valueOf(gesamt.get(position)));
 
-                context.startActivity(intent);
-            }
-        });
+                activity.startActivityForResult(intent, 1);
+                 }
+             });
     }
 
     @Override

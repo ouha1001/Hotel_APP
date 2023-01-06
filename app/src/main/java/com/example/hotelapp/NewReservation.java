@@ -4,17 +4,19 @@ import android.app.DatePickerDialog;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,19 +24,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 
-public class NewReservation extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class NewReservation extends AppCompatActivity {
     Database db;
-    String itemselected;
-    Spinner spinner, spinner1, spinner2;
-    Map<Integer, String> rooms = new Zimmer().getRooms();
+    AutoCompleteTextView room_id, roomtype, customer_id;
     Map<String, Integer> Kunde;
     TextView checkIn, checkOut;
-    long i, i1;
     Button btnadd;
 
 
@@ -50,61 +47,66 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
 
     }
 
-    //public boolean checkPeriod(long in, long out) {
-    //    boolean r;
-    //    long temp = (out - in) / 86400000;
-    //    if (temp < 0) {
-    //        b = new AlertDialog.Builder(this);
-    //        b.setCancelable(true);
-    //        b.setTitle("Falsche Information");
-    //        b.setMessage("Check Out und Check In sind nicht Richtig !!");
-    //        AlertDialog a = b.create();
-    //        b.show();
-
-    //        r = true;
-    //    } else {
-    //        r = false;
-    //    }
-    //    return r;
-    //}
-
     public void storeAllClients() {
         Cursor c = db.readAllData();
         if (c.getCount() == 0) {
             Toast.makeText(this, "Keine Kunden ", Toast.LENGTH_SHORT).show();
         } else {
             while (c.moveToNext()) {
-                Kunde.put(c.getString(1) + " " + c.getString(2), Integer.parseInt(c.getString(0)));
-
+                Kunde.put(c.getString(1) + " " + c.getString(2)
+                        , Integer.parseInt(c.getString(0)));
             }
         }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource
+                (this, R.array.TypeZimmer, R.layout.drop_down_item);
+        roomtype.setAdapter(adapter1);
+        roomtype.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ArrayAdapter<Integer> adapter = new ArrayAdapter<>(NewReservation.this, R.layout.drop_down_item,
+                        (new Zimmer().getRoomsbyType(roomtype.getText().toString())));
+                room_id.setAdapter(adapter);
+            }
+        });
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(NewReservation.this, R.layout.drop_down_item
+                , new ArrayList<>(Kunde.keySet()));
+        customer_id.setAdapter(adapter2);
+
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(NewReservation.this, R.layout.drop_down_item,
+                (new Zimmer().getRoomsbyType(roomtype.getText().toString())));
+        room_id.setAdapter(adapter);
 
     }
 
-    public List<Integer> getRoom(@NonNull Map<Integer, String> rooms) {
-        List<Integer> spinnerArray = new ArrayList<>(rooms.size());
+    public long price(@NonNull String checkin, @NonNull String checkout) {
+        long days = getDays(checkin, checkout);
+        return (roomtype.getText().toString().equals("Single")) ? days * 10 : days * 20;
+    }
 
-        if (itemselected == null) {
-            spinnerArray.addAll(rooms.keySet());
-        } else {
-            for (Integer list : rooms.keySet()) {
-
-                if (Objects.equals(rooms.get(list), itemselected)) {
-                    spinnerArray.add(list);
-                }
-            }
-        }
-        return spinnerArray;
+    private static long getDays(@NonNull String checkin, @NonNull String checkout) {
+        String[] a = checkin.split("-");
+        String[] b = checkout.split("-");
+        return (new Date(Integer.parseInt(b[0]) - 1900, Integer.parseInt(b[1]) - 1, Integer.parseInt(b[2])).getTime()
+                - new Date(Integer.parseInt(a[0]) - 1900, Integer.parseInt(a[1]) - 1, Integer.parseInt(a[2])).getTime()) / 86400000;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_reservation);
-
-
-
+        customer_id =findViewById(R.id.id_Kund_res);
+        checkIn = findViewById(R.id.checkin);
+        checkOut = findViewById(R.id.checkout);
+        btnadd = findViewById(R.id.add_reservation);
+        roomtype = findViewById(R.id.id_typeroom);
+        room_id = findViewById(R.id.id_room);
 
         db = new Database(this);
         Kunde = new HashMap<>();
@@ -113,45 +115,26 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
-        checkIn = findViewById(R.id.checkin);
-        checkOut = findViewById(R.id.checkout);
-        btnadd = findViewById(R.id.add_reservation);
+
+
+
         btnadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                long Result = (i1 - i) / 86400000;
-                long price = (itemselected.equals("Single")) ? 10 * Result : 20 * Result;
-                Cursor c=db.storeAllDataReservation(Integer.parseInt(spinner.getSelectedItem().toString()),checkIn.getText().toString(),checkOut.getText().toString());
-                if(c.getCount()>0) {
-                    Toast.makeText(NewReservation.this, " "+c.getCount(), Toast.LENGTH_SHORT).show();
-                }
-                else {                    Toast.makeText(NewReservation.this, ""+c.getCount(), Toast.LENGTH_SHORT).show();
 
-                    if (price > 0) {
-                        db.addReservation(Kunde.get(spinner2.getSelectedItem().toString()), Integer.parseInt(spinner.getSelectedItem().toString()),
-                                checkIn.getText().toString(), checkOut.getText().toString(), (int) price);
-                        b = new AlertDialog.Builder(NewReservation.this);
-                        b.setCancelable(true);
-                        b.setTitle("Total ");
-                        b.setMessage("Gesamte Price : " + price);
-                        AlertDialog a = b.create();
-                        b.show();
-                    } else {
-                        b = new AlertDialog.Builder(NewReservation.this);
-                        b.setCancelable(true);
-                        b.setTitle("Falsche Information");
-                        b.setMessage("Check Out und Check In sind nicht Richtig !!");
-                        AlertDialog a = b.create();
-                        b.show();
-                        checkIn.setText(null);
-                        checkOut.setText(null);
-                    }
-
-                }
-
-
+                long price = price(checkIn.getText().toString(), checkOut.getText().toString());
+                db.addReservation(Kunde.get(customer_id.getText().toString()), Integer.parseInt(room_id.getText().toString()),
+                        checkIn.getText().toString(), checkOut.getText().toString(), (int) price);
+                b = new AlertDialog.Builder(NewReservation.this);
+                b.setCancelable(true);
+                b.setTitle("Total ");
+                b.setMessage("Gesamte Price : " + price);
+                AlertDialog a = b.create();
+                b.show();
+ 
             }
         });
+
         //Check IN
         checkIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,25 +144,23 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
                 datePickerDialog.show();
             }
         });
-        setListener = new DatePickerDialog.OnDateSetListener() {
 
+        setListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
                 month = month + 1;
                 if (checkDatum(year, month, dayOfMonth)) {
-                    Date tag = new Date(year, month, dayOfMonth);
+
                     String date = year + "-" + month + "-" + dayOfMonth;
-                    i = tag.getTime();
                     checkIn.setText(date);
                 } else {
                     checkIn.setText(null);
                     checkOut.setText(null);
+                    Toast.makeText(NewReservation.this, "Please Select a valid Checkin Date!", Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         };
+
         //Check OUt
         checkOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,62 +175,17 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-                month = month + 1;
-                if (checkDatum(year, month, dayOfMonth)) {
-
-                    Date tag = new Date(year, month, dayOfMonth);
-                    String date = year + "-" + month + "-" + dayOfMonth;
-                    i1 = tag.getTime();
-                    //String days = tag.getDay()+"/"+tag.getMonth()+"/"+ tag.getYear();
+                month++;
+                String date = year + "-" + month + "-" + dayOfMonth;
+                long x = getDays(checkIn.getText().toString(), date);
+                if (checkDatum(year, month, dayOfMonth) && x > 0) {
                     checkOut.setText(date);
                 } else {
-                    checkIn.setText(null);
                     checkOut.setText(null);
+                    Toast.makeText(NewReservation.this, "Please Select a valid Checkout Date!", Toast.LENGTH_SHORT).show();
+
                 }
-
-
             }
         };
-        //Type Zimmer
-        spinner1 = findViewById(R.id.id_typeroom);
-        ArrayAdapter<CharSequence> adapter_ = ArrayAdapter.createFromResource
-                (this, R.array.TypeZimmer, android.R.layout.simple_spinner_item);
-        adapter_.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner1.setAdapter(adapter_);
-        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                itemselected = spinner1.getSelectedItem().toString();
-                spinner = findViewById(R.id.id_room);
-                ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(NewReservation.this, android.R.layout.simple_spinner_item, getRoom(rooms));
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setAdapter(adapter);
-                spinner.setOnItemSelectedListener(NewReservation.this);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        //Spinner Kunde
-        spinner2 = findViewById(R.id.id_Kund);
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, new ArrayList<>(Kunde.keySet()));
-        spinner2.setAdapter(adapter2);
-        spinner2.setOnItemSelectedListener(this);
-
-
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String text = parent.getItemAtPosition(position).toString();
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
     }
 }

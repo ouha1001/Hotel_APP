@@ -35,6 +35,7 @@ public class Database extends SQLiteOpenHelper {
     private static  final  String Tel = "Tel";
     private static  final  String Land = "Land";
 
+
     Map<Integer, String> Kunde;
     public Database(@Nullable Context context) {
         super(context, DB_NAME, null, Version_db);
@@ -63,18 +64,9 @@ public class Database extends SQLiteOpenHelper {
                         Email+" TEXT ,"+
                         Tel+" TEXT ," +
                         Land+" TEXT);";
-       /* String query2 =
-                "CREATE TABLE "+TName3+
-                        "("+ID_Zimmer+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                        Type+" VARCHAR(50));";*/
-
-
 
         db.execSQL(query);
         db.execSQL(query1);
-        //db.execSQL(query2);
-
-
 
     }
 
@@ -123,9 +115,9 @@ public class Database extends SQLiteOpenHelper {
 
         long result = database.insert(TName2, null, contentValues);
 
-        if(result == -1){
+        if (result == -1) {
             Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             Toast.makeText(context, "Successfully!", Toast.LENGTH_SHORT).show();
         }
 
@@ -133,6 +125,12 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
+    public int getdate(String checkin, String checkout) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery("select " + Id_Zimmer_R + " from " + TName + " where " + DateIn + " not between ? and ? and " + DateOut + " not between ? and ?", new String[]{checkin, checkout, checkin, checkout});
+        cursor.moveToNext();
+        return cursor.getCount();
+    }
 
     public boolean checkusername(String username) {
         SQLiteDatabase database = this.getWritableDatabase();
@@ -155,26 +153,51 @@ public class Database extends SQLiteOpenHelper {
         return false;
     }
 
-    Cursor readAllData(){
+    void updateReservation(String checkout, String checkin, int id_room, int id_reservation, int price) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(Id_Zimmer_R, id_room);
+        cv.put(Gesamt, price);
+        cv.put(DateIn, checkin);
+        cv.put(DateOut, checkout);
+
+        long result = database.update(TName, cv, ID_Reservation + " =?", new String[]{String.valueOf(id_reservation)});
+        if ((result == -1)) {
+            Toast.makeText(context, "Failed to update", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Successfully Updated", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    Cursor readAllData() {
         String query = "SELECT * FROM " + TName2;
         SQLiteDatabase database = this.getReadableDatabase();
 
         Cursor cursor = null;
 
-        if(database != null){
+        if (database != null) {
             cursor = database.rawQuery(query, null);
 
-        }
-        else {
+        } else {
             Toast.makeText(context,"Empty Data",Toast.LENGTH_SHORT).show();
         }
         return cursor;
+    }
+
+    String findresbyid(String id) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery("select " + Id_Zimmer_R + " , " + ID_Reservation + " from " + TName + " where " + ID_Reservation + " = ?", new String[]{id});
+        if (cursor.getCount() > 0) {
+            cursor.moveToNext();
+            return cursor.getString(0) + "   " + cursor.getString(1);
         }
+
    Cursor storeAllDataReservation(int ID_room,String DateIn,String DateOut){
        String query = " SELECT * FROM " + TName ;
        SQLiteDatabase database = this.getWritableDatabase();
 
        Cursor cursor = null;
+
 
        if(database != null){
 
