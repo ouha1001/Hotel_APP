@@ -39,8 +39,9 @@ public class activity_UpdateReservation extends AppCompatActivity {
     Map<Integer, String> rooms = new Zimmer().getRooms();
     Map<Integer, String> Kunde;
     TextView Reservation_id, Kunde_Id, checkIn, checkOut;
-    long i, i1;
+
     Button btnupdate,btndelete;
+
     DatePickerDialog.OnDateSetListener setListener, setListener_out;
     AlertDialog.Builder b;
     String R_id, K_Id, Z_Id, C_IN, C_OUT, price;
@@ -48,7 +49,7 @@ public class activity_UpdateReservation extends AppCompatActivity {
     public void storeAllClients() {
         Cursor c = db.readAllData();
         if (c.getCount() == 0) {
-            Toast.makeText(this, "Keinen Kunden", Toast.LENGTH_SHORT).show();        } else {
+            Toast.makeText(this, "Keinen Kunden", Toast.LENGTH_SHORT).show();} else {
             while (c.moveToNext()) {
                 Kunde.put(Integer.parseInt(c.getString(0)), c.getString(1) + " " + c.getString(2));
             }
@@ -75,28 +76,9 @@ public class activity_UpdateReservation extends AppCompatActivity {
             checkOut.setText(C_OUT);
             room_id.setText(Z_Id);
             room_type.setText(rooms.get(Integer.valueOf(Z_Id)));
-            Toast.makeText(this, "" + Z_Id, Toast.LENGTH_SHORT).show();
-
-
         } else {
             Toast.makeText(this, "No Data", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public List<Integer> getRoom(@NonNull Map<Integer, String> rooms) {
-        List<Integer> spinnerArray = new ArrayList<>(rooms.size());
-
-        if (itemselected == null) {
-            spinnerArray.addAll(rooms.keySet());
-        } else {
-            for (Integer list : rooms.keySet()) {
-
-                if (Objects.equals(rooms.get(list), itemselected)) {
-                    spinnerArray.add(list);
-                }
-            }
-        }
-        return spinnerArray;
     }
 
     public boolean checkDatum(int year, int month, int DayofMonth) {
@@ -117,18 +99,28 @@ public class activity_UpdateReservation extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(activity_UpdateReservation.this, R.layout.drop_down_item,
-                        (rooms.keySet().stream().filter(c -> Objects.equals(rooms.get(c), room_type.getText().toString())).collect(Collectors.toList())));
+                ArrayAdapter<Integer> adapter = new ArrayAdapter<>(activity_UpdateReservation.this
+                        , R.layout.drop_down_item, new Zimmer().getRoomsbyType(room_type.getText().toString()));
+
                 room_id.setAdapter(adapter);
                 Toast.makeText(activity_UpdateReservation.this, "test :" + room_id.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
-        ArrayAdapter<Integer> adapter = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            adapter = new ArrayAdapter<Integer>(activity_UpdateReservation.this, R.layout.drop_down_item,
-                    (rooms.keySet().stream().filter(c -> Objects.equals(rooms.get(c), room_type.getText().toString())).collect(Collectors.toList())));
-        }
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(activity_UpdateReservation.this
+                , R.layout.drop_down_item ,new Zimmer().getRoomsbyType(room_type.getText().toString()));
         room_id.setAdapter(adapter);
+    }
+
+    public long price(@NonNull String checkin, @NonNull String checkout) {
+        long days = getDays(checkin, checkout);
+        return (room_type.getText().toString().equals("Single")) ? days * 10 : days * 20;
+    }
+
+    private static long getDays(@NonNull String checkin, @NonNull String checkout) {
+        String[] a = checkin.split("-");
+        String[] b = checkout.split("-");
+        return (new Date(Integer.parseInt(b[0])-1900, Integer.parseInt(b[1])-1, Integer.parseInt(b[2])).getTime()
+                - new Date(Integer.parseInt(a[0])-1900, Integer.parseInt(a[1])-1, Integer.parseInt(a[2])).getTime()) / 86400000;
     }
 
     @Override
@@ -147,23 +139,6 @@ public class activity_UpdateReservation extends AppCompatActivity {
         Kunde_Id = findViewById(R.id.id_Kund);
         checkIn = findViewById(R.id.checkin);
         checkOut = findViewById(R.id.checkout);
-        btnupdate = findViewById(R.id.Update_reservation);
-
-        btnupdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Cursor c=db.storeAllDataReservation(room_id.getText().toString());
-
-                if(c.getCount()>0){
-                    Toast.makeText(activity_UpdateReservation.this, "is reserved ", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(activity_UpdateReservation.this, "Free Room", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
         btndelete = findViewById(R.id.Delete_reservation);
         btndelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,9 +150,11 @@ public class activity_UpdateReservation extends AppCompatActivity {
             }
         });
 
-
         room_type = findViewById(R.id.id_typeroom);
         room_id = findViewById(R.id.id_room);
+        btnupdate = findViewById(R.id.Update_reservation);
+
+        getAndSetIntentData();
 
         //Check IN
         checkIn.setOnClickListener(new View.OnClickListener() {
@@ -189,24 +166,19 @@ public class activity_UpdateReservation extends AppCompatActivity {
             }
         });
         setListener = new DatePickerDialog.OnDateSetListener() {
-
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
                 month = month + 1;
                 if (checkDatum(year, month, dayOfMonth)) {
-                    Date tag = new Date(year, month, dayOfMonth);
-                    String date = dayOfMonth + "/" + month + "/" + year;
-                    i = tag.getTime();
+                    String date = year + "-" + month + "-" + dayOfMonth;
                     checkIn.setText(date);
                 } else {
                     checkIn.setText(null);
                     checkOut.setText(null);
                 }
-
-
             }
         };
+
         //Check OUt
         checkOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,13 +192,10 @@ public class activity_UpdateReservation extends AppCompatActivity {
 
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
                 month++;
-                Date tag = new Date(year, month, dayOfMonth);
-                i1 = tag.getTime();
-                if (checkDatum(year, month, dayOfMonth) && i1 > i) {
-
-                    String date = dayOfMonth + "/" + month + "/" + year;
+                String date = year + "-" + month + "-" + dayOfMonth;
+                long x = getDays(checkIn.getText().toString(), date);
+                if (checkDatum(year, month, dayOfMonth) && x > 0) {
                     checkOut.setText(date);
                 } else {
                     checkOut.setText(null);
@@ -234,9 +203,18 @@ public class activity_UpdateReservation extends AppCompatActivity {
                 }
             }
         };
+        btnupdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-
-        getAndSetIntentData();
+                db.updateReservation((checkOut.getText().toString()), (checkIn.getText().toString()),
+                        Integer.parseInt(room_id.getText().toString()), Integer.parseInt(R_id),
+                        (int) price(checkIn.getText().toString(), checkOut.getText().toString()));
+                Intent intent = new Intent(activity_UpdateReservation.this,MyRow.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
     }
 }
