@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_list"
-    android:visibility="visible"
-    >
+    android:visibility="visible">
 
     <Button
         android:id="@+id/neue_kunde"
@@ -42,6 +41,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/reservierungen"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="186dp"
         android:layout_height="244dp"
         android:layout_marginStart="16dp"
@@ -49,9 +49,8 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="9dp"
         android:backgroundTint="@color/teal_700"
-        android:textColor="@color/white"
         android:onClick="reservierungenBtn"
-style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/neue_kunde"
         app:layout_constraintEnd_toStartOf="@+id/reservierung_erstellen"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,9 +65,9 @@ style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_marginEnd="13dp"
         android:layout_marginBottom="9dp"
         android:backgroundTint="#009688"
+        android:onClick="newReservationBtn"
         android:text="Reservierung erstellen"
         android:textColor="@color/white"
-        android:onClick="newReservationBtn"
         app:layout_constraintBottom_toTopOf="@+id/button10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/reservierungen"

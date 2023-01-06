@@ -29,6 +29,8 @@ import java.util.Map;
 
 public class NewReservation extends AppCompatActivity {
     Database db;
+    Zimmer bloc1=new Zimmer();
+
     AutoCompleteTextView room_id, roomtype, customer_id;
     Map<String, Integer> Kunde;
     TextView checkIn, checkOut;
@@ -40,7 +42,7 @@ public class NewReservation extends AppCompatActivity {
 
     public boolean checkDatum(int year, int month, int DayofMonth) {
 
-        Date date = new Date(year-1900, month-1, DayofMonth,23,59);
+        Date date = new Date(year - 1900, month - 1, DayofMonth, 23, 59);
 
         Calendar calendar = Calendar.getInstance();
         return calendar.getTime().compareTo(date) < 0;
@@ -71,7 +73,7 @@ public class NewReservation extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ArrayAdapter<Integer> adapter = new ArrayAdapter<>(NewReservation.this, R.layout.drop_down_item,
-                        (new Zimmer().getRoomsbyType(roomtype.getText().toString())));
+                        (bloc1.getRoomsbyType(roomtype.getText().toString())));
                 room_id.setAdapter(adapter);
             }
         });
@@ -80,7 +82,7 @@ public class NewReservation extends AppCompatActivity {
         customer_id.setAdapter(adapter2);
 
         ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(NewReservation.this, R.layout.drop_down_item,
-                (new Zimmer().getRoomsbyType(roomtype.getText().toString())));
+                (bloc1.getRoomsbyType(roomtype.getText().toString())));
         room_id.setAdapter(adapter);
 
     }
@@ -97,17 +99,31 @@ public class NewReservation extends AppCompatActivity {
                 - new Date(Integer.parseInt(a[0]) - 1900, Integer.parseInt(a[1]) - 1, Integer.parseInt(a[2])).getTime()) / 86400000;
     }
 
+    private static Boolean isBetween(String TestDate,@NonNull String checkin, @NonNull String checkout) {
+        String[] a = checkin.split("-");
+        String[] b = checkout.split("-");
+        String[] c = TestDate.split("-");
+        long a1 = new Date(Integer.parseInt(a[0]) - 1900, Integer.parseInt(a[1]) - 1, Integer.parseInt(a[2])).getTime();
+        long b1 = new Date(Integer.parseInt(b[0]) - 1900, Integer.parseInt(b[1]) - 1, Integer.parseInt(b[2])).getTime();
+        long c1 = new Date(Integer.parseInt(c[0]) - 1900, Integer.parseInt(c[1]) - 1, Integer.parseInt(c[2])).getTime();
+        return c1 < b1 && c1 > a1;
+    }
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_new_reservation);
-        customer_id =findViewById(R.id.id_Kund_res);
+        customer_id = findViewById(R.id.id_Kund_res);
         checkIn = findViewById(R.id.checkin);
         checkOut = findViewById(R.id.checkout);
         btnadd = findViewById(R.id.add_reservation);
-        roomtype = findViewById(R.id.id_typeroom);
         room_id = findViewById(R.id.id_room);
-
+        roomtype = findViewById(R.id.id_typeroom);
+        roomtype.setText("Single");
         db = new Database(this);
         Kunde = new HashMap<>();
         storeAllClients();
@@ -117,10 +133,12 @@ public class NewReservation extends AppCompatActivity {
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
 
-
         btnadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Cursor cursor = db.storeAllDataReservation(room_id.getText().toString());
+                // 3 and 4
+
 
                 long price = price(checkIn.getText().toString(), checkOut.getText().toString());
                 db.addReservation(Kunde.get(customer_id.getText().toString()), Integer.parseInt(room_id.getText().toString()),
@@ -131,7 +149,7 @@ public class NewReservation extends AppCompatActivity {
                 b.setMessage("Gesamte Price : " + price);
                 AlertDialog a = b.create();
                 b.show();
- 
+
             }
         });
 

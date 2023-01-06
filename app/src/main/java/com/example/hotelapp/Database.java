@@ -184,16 +184,24 @@ public class Database extends SQLiteOpenHelper {
         return cursor;
     }
 
-    String findresbyid(String id) {
+    Cursor storeAllDates(String id_room){
+        String query = " SELECT "+DateIn+" ," +DateOut+" FROM " + TName +" WHERE Id_Zimmer = ?";
         SQLiteDatabase database = this.getWritableDatabase();
-        Cursor cursor = database.rawQuery("select " + Id_Zimmer_R + " , " + ID_Reservation + " from " + TName + " where " + ID_Reservation + " = ?", new String[]{id});
-        if (cursor.getCount() > 0) {
-            cursor.moveToNext();
-            return cursor.getString(0) + "   " + cursor.getString(1);
+
+        Cursor cursor = null;
+
+
+        if(database != null){
+
+            cursor = database.rawQuery(query, new String[] {id_room});
+
         }
 
-   Cursor storeAllDataReservation(int ID_room,String DateIn,String DateOut){
-       String query = " SELECT * FROM " + TName ;
+        return cursor;
+    }
+
+
+
    Cursor storeAllDataReservation(String ID_room){
        String query = " SELECT * FROM " + TName +" WHERE Id_Zimmer = ?";
        SQLiteDatabase database = this.getWritableDatabase();

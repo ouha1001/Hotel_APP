@@ -65,13 +65,13 @@ public class MyRow extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            recreate();
-        }
-    }
+   // @Override
+   // protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+   //     super.onActivityResult(requestCode, resultCode, data);
+   //     if (requestCode == 1) {
+   //         recreate();
+   //     }
+   // }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

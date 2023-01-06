@@ -3,6 +3,7 @@ package com.example.hotelapp;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -65,14 +66,14 @@ public class HomePageActivity extends AppCompatActivity {
         else {
             StringBuilder sb = new StringBuilder();
             while (c.moveToNext()){
-                sb.append("+++++++++++++++++++++++++++ \n");
-                sb.append(" ID ").append(c.getString(0)).append(" \n ");
-                sb.append(" Vorname ").append(c.getString(1)).append(" \n ");
-                sb.append(" Nachname ").append(c.getString(2)).append(" \n ");
-                sb.append(" Geburtsdatum ").append(c.getString(3)).append(" \n ");
-                sb.append(" Email ").append(c.getString(4)).append(" \n ");
-                sb.append(" Tel ").append(c.getString(5)).append(" \n ");
-                sb.append(" Land ").append(c.getString(6)).append(" \n ");
+                sb.append("\n+++++++++++++++++++++++++++ \n");
+                sb.append("\n ID : ").append(c.getString(0)).append(" \n ");
+                sb.append(" Vorname : ").append(c.getString(1)).append(" \n ");
+                sb.append(" Nachname : ").append(c.getString(2)).append(" \n ");
+                sb.append(" Geburtsdatum : ").append(c.getString(3)).append(" \n ");
+                sb.append(" Email : ").append(c.getString(4)).append(" \n ");
+                sb.append(" Tel : " ).append(c.getString(5)).append(" \n ");
+                sb.append(" Land : ").append(c.getString(6)).append(" \n ");
             }
 
                 AlertDialog.Builder b = new AlertDialog.Builder(this);

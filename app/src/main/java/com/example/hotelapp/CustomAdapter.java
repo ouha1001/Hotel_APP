@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -79,7 +80,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.id_zimmer.setText(String.valueOf(id_zimmer.get(position)));
         holder.datein.setText(String.valueOf(datein.get(position)));
         holder.dateout.setText(String.valueOf(dateout.get(position)));
-        holder.gesamt.setText("Price :" + String.valueOf(gesamt.get(position)));
+        holder.gesamt.setText("Price :" + gesamt.get(position));
 
 
         holder.btndelete.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +88,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             @Override
             public void onClick(View v) {
                 String pos = String.valueOf(id_reservation.get(position));
-                Toast.makeText(context, "" + String.valueOf(id_reservation.get(position)), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "" + id_reservation.get(position), Toast.LENGTH_SHORT).show();
 
                 if (pos.isEmpty()) {
                     Toast.makeText(context, "Item Empty" + pos, Toast.LENGTH_SHORT).show();
@@ -101,7 +102,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 db.DeleteReservation(pos);
-                                Toast.makeText(context, "deleted item " + String.valueOf(id_reservation.get(position)), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "deleted item " + id_reservation.get(position), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(context ,CustomAdapter.MyViewHolder.class);
                                 activity.startActivityForResult(intent,1);
                                 activity.finish();

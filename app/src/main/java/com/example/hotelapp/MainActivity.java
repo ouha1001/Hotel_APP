@@ -30,10 +30,10 @@ public class MainActivity extends AppCompatActivity {
         animationDrawable.start();
 
 
-        TextView username = (TextView) findViewById(R.id.user_name);
-        TextView password = (TextView) findViewById(R.id.password);
+        TextView username = findViewById(R.id.user_name);
+        TextView password = findViewById(R.id.password);
 
-        MaterialButton loginBtn = (MaterialButton) findViewById(R.id.loginbtn);
+        MaterialButton loginBtn = findViewById(R.id.loginbtn);
 
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
