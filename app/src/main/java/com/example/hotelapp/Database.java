@@ -170,15 +170,15 @@ public class Database extends SQLiteOpenHelper {
         }
         return cursor;
         }
-   Cursor storeAllDataReservation(int ID_room,String DateIn,String DateOut){
-       String query = " SELECT * FROM " + TName ;
+   Cursor storeAllDataReservation(String ID_room){
+       String query = " SELECT * FROM " + TName +" WHERE Id_Zimmer = ?";
        SQLiteDatabase database = this.getWritableDatabase();
 
        Cursor cursor = null;
 
        if(database != null){
 
-           cursor = database.rawQuery(query, null);
+           cursor = database.rawQuery(query, new String[] {ID_room});
 
        }
 

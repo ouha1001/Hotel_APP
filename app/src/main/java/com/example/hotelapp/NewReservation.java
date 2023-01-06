@@ -81,6 +81,13 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
 
     }
 
+   // public Boolean Verfuegbarkeit(String start, String end){
+   //     boolean res;
+   //     Cursor cursor
+   //
+   //     return true;
+   // }
+
     public List<Integer> getRoom(@NonNull Map<Integer, String> rooms) {
         List<Integer> spinnerArray = new ArrayList<>(rooms.size());
 
@@ -121,7 +128,7 @@ public class NewReservation extends AppCompatActivity implements AdapterView.OnI
             public void onClick(View v) {
                 long Result = (i1 - i) / 86400000;
                 long price = (itemselected.equals("Single")) ? 10 * Result : 20 * Result;
-                Cursor c=db.storeAllDataReservation(Integer.parseInt(spinner.getSelectedItem().toString()),checkIn.getText().toString(),checkOut.getText().toString());
+                Cursor c=db.storeAllDataReservation(spinner.getSelectedItem().toString());
                 if(c.getCount()>0) {
                     Toast.makeText(NewReservation.this, " "+c.getCount(), Toast.LENGTH_SHORT).show();
                 }

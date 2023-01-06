@@ -153,7 +153,7 @@ public class activity_UpdateReservation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Cursor c=db.storeAllDataReservation(Integer.parseInt(room_id.getText().toString()),checkIn.getText().toString(),checkOut.getText().toString());
+                Cursor c=db.storeAllDataReservation(room_id.getText().toString());
 
                 if(c.getCount()>0){
                     Toast.makeText(activity_UpdateReservation.this, "is reserved ", Toast.LENGTH_SHORT).show();
