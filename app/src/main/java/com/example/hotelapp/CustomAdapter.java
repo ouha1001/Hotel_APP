@@ -133,6 +133,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                 intent.putExtra("gesamt", String.valueOf(gesamt.get(position)));
 
                 activity.startActivityForResult(intent, 1);
+                activity.finish();
+
                  }
              });
     }
@@ -146,7 +148,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
         TextView id_Reservation, id_kunde, id_zimmer, datein, dateout, gesamt, btndelete;
         LinearLayout linearLayout;
-        RecycleViewInterface recycleViewInterface;
+        //RecycleViewInterface recycleViewInterface;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -162,15 +164,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             btndelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (recycleViewInterface != null) {
-                        int pos = getAdapterPosition();
-
-                        if (pos != RecyclerView.NO_POSITION) {
-                            recycleViewInterface.Oussama(pos);
-                            Toast.makeText(context, "NO " + pos, Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
+                   // if (recycleViewInterface != null) {
+                   //     int pos = getAdapterPosition();
+//
+                   //     if (pos != RecyclerView.NO_POSITION) {
+                   //         recycleViewInterface.Oussama(pos);
+                   //         Toast.makeText(context, "NO " + pos, Toast.LENGTH_SHORT).show();
+                   //     }
+//
+                   // }
                 }
             });
 

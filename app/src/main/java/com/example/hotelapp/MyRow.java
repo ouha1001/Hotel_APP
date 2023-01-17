@@ -26,6 +26,7 @@ public class MyRow extends AppCompatActivity {
     RecyclerView recyclerView;
     Database db;
     Map<Integer, String> Kunde;
+    String sessionId;
 
 
 
@@ -33,6 +34,24 @@ public class MyRow extends AppCompatActivity {
     ArrayList<Integer> id_reservation,id_kunde,id_zimmer,gesamt;
     ArrayList<String> datein,dateout,vorname,nachname;
     CustomAdapter customAdapter;
+    public void storeAllDataReservation(String id) {
+        Cursor c = db.readAllDataReservationbyId(id);
+        if (c.getCount() == 0) {
+            Toast.makeText(this, "Keine Reservation ", Toast.LENGTH_SHORT).show();
+        } else {
+            while (c.moveToNext()) {
+                id_reservation.add(Integer.valueOf(c.getString(0)));
+                id_kunde.add(Integer.valueOf(c.getString(1)));
+                id_zimmer.add(Integer.valueOf(c.getString(2)));
+                gesamt.add(Integer.valueOf(c.getString(5)));
+                datein.add(c.getString(3));
+                dateout.add(c.getString(4));
+                vorname.add(c.getString(6));
+                nachname.add(c.getString(7));
+            }
+        }
+
+    }
     public void storeAllClients() {
         Cursor c = db.readAllData();
         if (c.getCount() == 0) {
@@ -84,7 +103,7 @@ public class MyRow extends AppCompatActivity {
         storeAllClients();
         id_reservation=new ArrayList<>();
         id_kunde= new ArrayList<>();
-
+        sessionId = getIntent().getStringExtra("EXTRA1_SESSION_ID");
         id_zimmer = new ArrayList<>();
         datein = new ArrayList<>();
         dateout = new ArrayList<>();
@@ -92,8 +111,12 @@ public class MyRow extends AppCompatActivity {
         vorname=new ArrayList<>();
         nachname=new ArrayList<>();
 
+        if (!(sessionId == null)) {
+            storeAllDataReservation(sessionId);
+        } else {
+            storeAllDataReservation();
+        }
 
-        storeAllDataReservation();
 
         customAdapter = new CustomAdapter(MyRow.this,this, id_reservation,id_kunde,id_zimmer,datein,dateout,gesamt,vorname,nachname);
         recyclerView.setAdapter(customAdapter);

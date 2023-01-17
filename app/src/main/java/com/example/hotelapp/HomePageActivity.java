@@ -46,16 +46,20 @@ public class HomePageActivity extends AppCompatActivity {
     public void reservierungenBtn(View view) {
         Intent intent = new Intent(this, MyRow.class);
         startActivity(intent);
+
+
     }
 
     public void newReservationBtn(View view){
         Intent intent = new Intent(this, NewReservation.class);
         startActivity(intent);
+
     }
 
     public void newUser(View view){
         Intent intent = new Intent(this, AddNewUser.class);
         startActivity(intent);
+
     }
 
     public void ShowClients(View view){
@@ -83,6 +87,7 @@ public class HomePageActivity extends AppCompatActivity {
                 b.setMessage(sb.toString());
                 b.create();
                 b.show();
+
 
 
 

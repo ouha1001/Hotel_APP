@@ -9,71 +9,79 @@
     android:visibility="visible"
     tools:context=".HomePageActivity">
 
-    <Button
-        android:id="@+id/neue_kunde"
-        android:layout_width="186dp"
-        android:layout_height="244dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="101dp"
-        android:backgroundTint="#009688"
-        android:onClick="newUser"
-        android:text="Neue Kunde"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reservierungen" />
 
-    <Button
-        android:id="@+id/button10"
-        android:layout_width="186dp"
-        android:layout_height="244dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginBottom="101dp"
-        android:backgroundTint="#009688"
-        android:onClick="ShowClients"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/neue_kunde"
-        app:layout_constraintTop_toBottomOf="@+id/reservierung_erstellen" />
+        <Button
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/reservierungen"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="186dp"
-        android:layout_height="244dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="132dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="9dp"
-        android:backgroundTint="@color/teal_700"
-        android:onClick="reservierungenBtn"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/neue_kunde"
-        app:layout_constraintEnd_toStartOf="@+id/reservierung_erstellen"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            android:id="@+id/neue_kunde"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="101dp"
+            android:backgroundTint="#009688"
+            android:onClick="newUser"
+            android:text="Neue Kunde"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/reservierungen" />
 
-    <Button
-        android:id="@+id/reservierung_erstellen"
-        android:layout_width="186dp"
-        android:layout_height="244dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="132dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginBottom="9dp"
-        android:backgroundTint="#009688"
-        android:onClick="newReservationBtn"
-        android:text="Reservierung erstellen"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/button10"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/reservierungen"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/button10"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginBottom="101dp"
+            android:backgroundTint="#009688"
+            android:onClick="ShowClients"
+            android:text="Kunden Infos"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/neue_kunde"
+            app:layout_constraintTop_toBottomOf="@+id/reservierung_erstellen" />
+
+        <Button
+            android:id="@+id/reservierungen"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="132dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="9dp"
+            android:backgroundTint="@color/teal_700"
+            android:onClick="reservierungenBtn"
+            android:text="Reservierungen"
+            android:textColor="@color/white"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toTopOf="@+id/neue_kunde"
+            app:layout_constraintEnd_toStartOf="@+id/reservierung_erstellen"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/reservierung_erstellen"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="132dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginBottom="9dp"
+            android:backgroundTint="#009688"
+            android:onClick="newReservationBtn"
+            android:text="Reservierung erstellen"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/button10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/reservierungen"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
 
     <TextView
         android:id="@+id/hello_user"

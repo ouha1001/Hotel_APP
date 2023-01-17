@@ -1,6 +1,8 @@
 package com.example.hotelapp;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -160,7 +162,17 @@ public class NewReservation extends AppCompatActivity {
                     b.setTitle("Total ");
                     b.setMessage("Gesamte Price : " + price);
                     AlertDialog a = b.create();
+
+                    b.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(NewReservation.this, MyRow.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
                     b.show();
+
                 }
             }
         });

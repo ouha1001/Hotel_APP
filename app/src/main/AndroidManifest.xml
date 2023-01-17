@@ -6,6 +6,7 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:label="Hotel App"
         android:icon="@drawable/hotel"
         android:roundIcon="@drawable/hotel"
         android:supportsRtl="true"
@@ -56,27 +57,11 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity
-            android:name=".OrderDetails"
-            android:exported="false"
-            android:parentActivityName=".ReservierungenList" >
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
         <activity
             android:name=".NewReservation"
             android:exported="false"
             android:label="@string/new_reservation"
-            android:parentActivityName=".HomePageActivity" >
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".ReservierungenList"
-            android:exported="false"
-            android:label="@string/order_list"
             android:parentActivityName=".HomePageActivity" >
             <meta-data
                 android:name="android.app.lib_name"

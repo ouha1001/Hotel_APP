@@ -183,6 +183,20 @@ public class Database extends SQLiteOpenHelper {
         }
         return cursor;
     }
+    Cursor readAllData(String Id) {
+        String query = "SELECT * FROM " + TName2+" WHERE  ID_Kunde = "+Id;
+        SQLiteDatabase database = this.getReadableDatabase();
+
+        Cursor cursor = null;
+
+        if (database != null) {
+            cursor = database.rawQuery(query, null);
+
+        } else {
+            Toast.makeText(context,"Empty Data",Toast.LENGTH_SHORT).show();
+        }
+        return cursor;
+    }
 
     Cursor storeAllDates(String id_room){
         String query = " SELECT "+DateIn+" ," +DateOut+" FROM " + TName +" WHERE Id_Zimmer = ?";
@@ -201,9 +215,26 @@ public class Database extends SQLiteOpenHelper {
     }
 
 
+    Cursor readAllDataReservationbyId(String customer_id){
+        String query = "SELECT R.ID_Reservation,R.Id_Kunde,R.Id_Zimmer,R.DateIn,R.DateOut,R.Gesamt," +
+                " k.Vorname,k.Nachname FROM " + TName+" R Inner join "+ TName2+" K " +
+                " ON R.Id_Kunde = K.ID_Kunde where R.Id_Kunde =?";
 
-   Cursor storeAllDataReservation(String ID_room){
-       String query = " SELECT * FROM " + TName +" WHERE Id_Zimmer = ?";
+        SQLiteDatabase database = this.getReadableDatabase();
+        Cursor cursor ;
+
+        if(database != null){
+            cursor = database.rawQuery(query, new String[]{ customer_id });
+
+        }
+        else {
+            cursor=null;
+            Toast.makeText(context,"Empty Data",Toast.LENGTH_SHORT).show();
+        }
+        return cursor;
+    }
+   Cursor storeAllDataReservation(String ID_Customer){
+       String query = " SELECT * FROM " + TName +" WHERE Id_Kunde = ?";
        SQLiteDatabase database = this.getWritableDatabase();
 
        Cursor cursor = null;
@@ -211,7 +242,7 @@ public class Database extends SQLiteOpenHelper {
 
        if(database != null){
 
-           cursor = database.rawQuery(query, new String[] {ID_room});
+           cursor = database.rawQuery(query, new String[] {ID_Customer});
 
        }
 
