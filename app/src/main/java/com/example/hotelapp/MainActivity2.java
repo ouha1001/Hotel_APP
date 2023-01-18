@@ -19,11 +19,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class MainActivity2 extends AppCompatActivity {
 
-    Button logoutbtn, addFeedback;
-    TextView welcome;
+    Button logoutbtn;
+
     Database db;
     String Customer_id;
-    String sessionId;
 
 
     @SuppressLint("SetTextI18n")
@@ -38,9 +37,10 @@ public class MainActivity2 extends AppCompatActivity {
         animationDrawable.setExitFadeDuration(5000);
         animationDrawable.start();
         Customer_id = getIntent().getStringExtra("SESSION_ID");
+        Toast.makeText(this, ""+Customer_id, Toast.LENGTH_SHORT).show();
         //welcome=findViewById(R.id.hello_user);
 
-         sessionId = getIntent().getStringExtra("EXTRA_SESSION_ID");
+
         //welcome.setText(" hallo "+sessionId);
         logoutbtn = findViewById(R.id.logout_btn);
         logoutbtn.setOnClickListener(view -> {
@@ -83,9 +83,9 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     public void reservierungenBtn(View view) {
-        Intent intent = new Intent(this, MyRow.class);
-        intent.putExtra("EXTRA1_SESSION_ID", Customer_id);
-        startActivity(intent);
+        Intent intent1 = new Intent(MainActivity2.this, MyRow.class);
+        intent1.putExtra("EXTRA1_SESSION_ID", Customer_id);
+        startActivity(intent1);
     }
 
     public void newReservationBtn(View view){
@@ -102,9 +102,9 @@ public class MainActivity2 extends AppCompatActivity {
 
     public void ShowClients(View view){
 
-        Cursor c=db.readAllData(sessionId);
+        Cursor c=db.readAllData(Customer_id);
         if(c.getCount()==0){
-            Toast.makeText(this,"Empty"+sessionId,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Empty"+Customer_id,Toast.LENGTH_SHORT).show();
         }
         else {
             StringBuilder sb = new StringBuilder();

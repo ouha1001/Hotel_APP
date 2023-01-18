@@ -59,9 +59,8 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "LOGIN SUCCESSFUL", Toast.LENGTH_SHORT).show();
                             String customer_id=strings[1];
                             Intent intent = new Intent(MainActivity.this, MainActivity2.class);
-                            startActivity(intent);
                             intent.putExtra("SESSION_ID", customer_id);
-
+                            startActivity(intent);
                             //setContentView(R.layout.activity_main2);
                         } else {
                             Toast.makeText(MainActivity.this, "LOGIN Failed", Toast.LENGTH_SHORT).show();

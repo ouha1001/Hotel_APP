@@ -98,12 +98,12 @@ public class MyRow extends AppCompatActivity {
         setContentView(R.layout.my_row);
         recyclerView = findViewById(R.id.recyclerView);
         db = new Database(MyRow.this);
-
+        sessionId = getIntent().getStringExtra("EXTRA1_SESSION_ID");
+        Toast.makeText(this, ""+sessionId, Toast.LENGTH_SHORT).show();
         Kunde = new HashMap<>();
         storeAllClients();
         id_reservation=new ArrayList<>();
         id_kunde= new ArrayList<>();
-        sessionId = getIntent().getStringExtra("EXTRA1_SESSION_ID");
         id_zimmer = new ArrayList<>();
         datein = new ArrayList<>();
         dateout = new ArrayList<>();
